@@ -86,15 +86,15 @@
                           <tbody>
                           <c:forEach var="lst" items="${lstPro }">
                               <tr>
-                                  <td>${lst[0] }</td>
-                                  <td>${lst[1] }</td>
-                                  <td>${lst[2] }</td>
-                                  <td><fmt:formatNumber value="${lst[3] }" type="percent"/></td>
-                                  <td>${lst[4] }</td>
-                                  <td><fmt:formatDate value="${lst[5] }" pattern="dd-MM-yyyy"/></td>
-                                  <td>${lst[6] }</td>
-                                  <td><a href="#">Edit</a></td>
-                                  <td><a href="#">Delete</a></td>
+                                  <td>${lst.name }</td>
+                                  <td>${lst.description }</td>
+                                  <td>${lst.price }</td>
+                                  <td><fmt:formatNumber value="${lst.discount }" type="percent"/></td>
+                                  <td>${lst.quantity }</td>
+                                  <td><fmt:formatDate value="${lst.created }" pattern="dd-MM-yyyy"/></td>
+                                  <td>${lst.category.name }</td>
+                                  <td><a href="admin/product/update/${lst.id }.htm" class="btn btn-outline-primary">Edit</a></td>
+                                  <td><a href="admin/product/delete/${lst.id }.htm" class="btn btn-outline-danger">Delete</a></td>
                               </tr>
                           </c:forEach>
                           </tbody>

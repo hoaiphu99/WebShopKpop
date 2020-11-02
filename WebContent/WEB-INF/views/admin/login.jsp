@@ -2,6 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -43,20 +44,26 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Chào mừng!</h1>
                                     </div>
-                                    <form action="admin/index.htm" class="user" method="post">
+                                    <form:form action="admin/login.htm" class="user" method="post" modelAttribute="user">
+                                    	<div class="col-form-label text-center"><span class="badge badge-danger">${msg }</span></div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Tên đăng nhập">
+                                        	<form:input path="username" type="text" class="form-control form-control-user" placeholder="Tên đăng nhập"/>
+                                        	<div class="col-form-label text-center"><form:errors path="username" class="badge badge-danger"/></div>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật khẩu">
+                                            <form:input path="password" type="password" class="form-control form-control-user" placeholder="Mật khẩu"/>
+                                        	<div class="col-form-label text-center"><form:errors path="password" class="badge badge-danger"/></div>
                                         </div>
                                         <button class="btn btn-primary btn-user btn-block" type="submit">
                                             Đăng nhập
                                         </button>
-                                    </form>
+                                    </form:form>
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.html">Quên mật khẩu?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Đăng ký ngay</a>
                                     </div>
                                 </div>
                             </div>

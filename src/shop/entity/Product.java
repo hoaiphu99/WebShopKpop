@@ -1,12 +1,15 @@
 package shop.entity;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,6 +36,9 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name="CateID")
 	private Category category;
+	
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+	private Collection<OderDetail> oderdetails;
 
 	public Integer getId() {
 		return Id;
@@ -104,6 +110,14 @@ public class Product {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public Collection<OderDetail> getOderdetails() {
+		return oderdetails;
+	}
+
+	public void setOderdetails(Collection<OderDetail> oderdetails) {
+		this.oderdetails = oderdetails;
 	}
 
 	

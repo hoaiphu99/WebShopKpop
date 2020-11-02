@@ -12,7 +12,7 @@
                 <div class="modal-body">Bấm "Đăng xuất" để thoát.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                    <a class="btn btn-primary" href="admin/login.htm">Đăng xuất</a>
+                    <a class="btn btn-primary" href="admin/logout.htm">Đăng xuất</a>
                 </div>
             </div>
         </div>

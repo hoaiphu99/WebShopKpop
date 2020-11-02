@@ -116,7 +116,7 @@
         <c:forEach var="i" items="${lstPro }">
         	<div class="col-lg-3 col-md-4 col-sm-6 mix ${i[5] }">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/${i[4] }">
+                    <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/${i[4] }" onclick="location.href='${i[5] }/${i[6]}.htm'">
                         <c:choose>
                         	<c:when test="${i[3] == 0 }"><div class="label stockout">Hết hàng</div></c:when>
                         	<c:when test="${i[2] > 0}"><div class="label sale">Sale <fmt:formatNumber value="${i[2] }" type="percent"/></div></c:when>
@@ -497,7 +497,11 @@
     </div>
 </div>
 <!-- Search End -->
-
+<script>
+$("div").click(function(){
+	   window.location=$(this).find("a").attr("href"); return false;
+	});
+</script>
 <!-- Js Plugins -->
 <jsp:include page="js.jsp"></jsp:include>
 </body>

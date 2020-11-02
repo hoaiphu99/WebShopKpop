@@ -62,8 +62,16 @@
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
-                            <a href="admin/login.htm">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
+                        	<c:choose>
+                        		<c:when test="${sessionScope.mUser == null }">
+                        			<a href="admin/login.htm">Đăng nhập</a>
+                            		<a href="#">Đăng ký</a>
+                       			</c:when>
+                       			<c:otherwise>
+	                       			<a href="admin/logout.htm">Xin chào, ${sessionScope.mUser.name }</a>
+                       			</c:otherwise>
+                        	</c:choose>
+                            
                         </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>

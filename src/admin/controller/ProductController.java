@@ -14,7 +14,9 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,8 +49,9 @@ public class ProductController {
 			model.addAttribute("msgEmpty", "Vui lòng chọn file!");
 		}
 		try {
-			String path = context.getRealPath("/resources/client/img/" + photo.getOriginalFilename());
+			String path = context.getRealPath("/resources/client/img/product/" + photo.getOriginalFilename());
 			photo.transferTo(new File(path));
+			System.out.print(path);
 		} catch (Exception e) {
 			model.addAttribute("failFile", "Lỗi upload file ảnh!");
 		}
@@ -66,13 +69,52 @@ public class ProductController {
 		return "admin/add-product";
 	}
 	
+	// sửa sản phẩm
+	@RequestMapping(value="update/{id}" , method = RequestMethod.GET)
+	public String update(ModelMap model, @PathVariable("id") Integer id) {
+		Session ss = factory.getCurrentSession();
+		String hql = "FROM Product p WHERE p.Id = :id";
+		Query query = ss.createQuery(hql);
+		query.setParameter("id", id);
+		Product product = (Product) query.uniqueResult();
+		model.addAttribute("product", product);
+		model.addAttribute("listCate", listCate());
+		return "admin/update-product";
+	}
+	
+	@RequestMapping(value="update" , method = RequestMethod.POST)
+	public String update(ModelMap model, @ModelAttribute("product") Product product, @RequestParam("attachment") MultipartFile photo, BindingResult errors) {
+		Session ss = factory.openSession();
+		Transaction t = ss.beginTransaction();
+		try {
+			if(photo.isEmpty()) {
+				model.addAttribute("msgEmpty", "Vui lòng chọn file!");
+			}
+			try {
+				String path = context.getRealPath("/resources/client/img/product/" + photo.getOriginalFilename());
+				photo.transferTo(new File(path));
+			} catch (Exception e) {
+				model.addAttribute("failFile", "Lỗi upload file ảnh!");
+			}
+			product.setPhoto(photo.getOriginalFilename());
+			product.setCreated(new Date());
+			ss.update(product);
+			t.commit();
+			model.addAttribute("msg", "Cập nhật thành công!");
+		} catch (Exception e) {
+			t.rollback();
+			model.addAttribute("msg", "Cập nhật thất bại!");
+		}
+		
+		return "redirect:/admin/product/list.htm";
+	}
+	
 	@RequestMapping("list")
 	public String list(ModelMap model) {
 		Session ss = factory.getCurrentSession();
-		String hql = "SELECT p.Name, p.Description, p.Price, p.Discount, p.Quantity, p.Created, p.category.Name "
-					+ "FROM Product p";
+		String hql = "FROM Product p";
 		Query query = ss.createQuery(hql);
-		List<Object[]> list = query.list();
+		List<Product> list = query.list();
 		model.addAttribute("lstPro", list);
 		return "admin/list-product";
 	}
@@ -101,9 +143,6 @@ public class ProductController {
 		String hql = "FROM Category";
 		Query query = ss.createQuery(hql);
 		List<Category> list = query.list();
-		for (Category category : list) {
-			System.out.print(category.getName());
-		}
 		return list;
 	}
 }

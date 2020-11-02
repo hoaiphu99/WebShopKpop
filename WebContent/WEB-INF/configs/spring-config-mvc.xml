@@ -26,5 +26,6 @@
    	
    	<!-- Cấu hình package chứa các controller -->
 	<context:component-scan base-package="shop.controller, admin.controller"/>
-
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/**" location="/" />
 </beans>

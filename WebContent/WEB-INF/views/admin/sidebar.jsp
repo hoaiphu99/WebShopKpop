@@ -72,6 +72,20 @@
                 </div>
             </div>
         </li>
+        
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Quản lý người dùng</span>
+            </a>
+            <div id="collapseUser" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="utilities-color.html">Xem tất cả người dùng</a>
+                    <a class="collapse-item" href="utilities-border.html">Thêm người dùng mới</a>
+                </div>
+            </div>
+        </li>
 
         
         <!-- Divider -->
