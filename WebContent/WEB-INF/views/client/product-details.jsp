@@ -59,22 +59,11 @@
                             <a class="pt active" href="#product-1">
                                 <img src="resources/client/img/product/${product.photo }" alt="">
                             </a>
-                            <!-- <a class="pt" href="#product-2">
-                                <img src="img/product/details/thumb-2.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-3">
-                                <img src="img/product/details/thumb-3.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-4">
-                                <img src="img/product/details/thumb-4.jpg" alt="">
-                            </a> -->
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
                                 <img data-hash="product-1" class="product__big__img" src="resources/client/img/product/${product.photo }" alt="">
-                                <!-- <img data-hash="product-2" class="product__big__img" src="img/product/details/product-3.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="img/product/details/product-2.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="img/product/details/product-4.jpg" alt=""> -->
+                                
                             </div>
                         </div>
                     </div>
@@ -88,10 +77,10 @@
                             <div class="quantity">
                                 <span>Số lượng:</span>
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="number" min="1" max="1000" id="quantity-cart-${product.id }" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ hàng</a>
+                            <button class="cart-btn" data-id="${product.id }"><span class="icon_bag_alt"></span> Thêm vào giỏ hàng</button>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -330,6 +319,13 @@
 
     <!-- Js Plugins -->
     <jsp:include page="js.jsp"></jsp:include>
+    <script type="text/javascript">
+    	$(".cart-btn").on("click", function(){
+            var id = $(this).data("id");
+            var quantity = $("#quantity-cart-" + id).val();
+            window.location = "add-cart/" + id + "/" + quantity + ".htm";
+        });
+    </script>
 </body>
 
 </html>

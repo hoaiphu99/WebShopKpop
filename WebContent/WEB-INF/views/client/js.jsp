@@ -10,3 +10,4 @@
 <script src="resources/client/js/owl.carousel.min.js"></script>
 <script src="resources/client/js/jquery.nicescroll.min.js"></script>
 <script src="resources/client/js/main.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

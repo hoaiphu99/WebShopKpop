@@ -179,6 +179,18 @@ ol {
 	padding: 12px 30px;
 	border-radius: 50px;
 }
+.site-btn.loginout {
+	font-size: 14px;
+	color: #ffffff;
+	background: #ca1515;
+	font-weight: 600;
+	border: none;
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 12px 30px;
+	border-radius: 50px;
+	transform: translate(300px, 10px);
+}
 
 /* Preloder */
 

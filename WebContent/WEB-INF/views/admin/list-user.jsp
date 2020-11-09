@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Danh sách sản phẩm</title>
+    <title>Danh sách người dùng</title>
 	<base href="${pageContext.servletContext.contextPath}/">
     <!-- Custom fonts for this template-->
     <link href="resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,9 +48,9 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Danh sách sản phẩm</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Danh sách người dùng</h1>
                     </div>
-					<div><a class="btn btn-primary" href="admin/product/add.htm" role="button">Thêm mới</a></div>
+					<div><a class="btn btn-primary" href="admin/user/add.htm" role="button">Thêm mới</a></div>
 					<hr>
                     <!-- Content Row -->
                     <!-- DataTales Example -->
@@ -60,42 +60,31 @@
                       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                           <thead>
                               <tr>
-                                  <th>Tên sản phẩm</th>
-                                  <th>Mô tả sản phẩm</th>
-                                  <th>Giá</th>
-                                  <th>Giảm giá</th>
-                                  <th>Số lượng</th>
-                                  <th>Ngày tạo</th>
-                                  <th>Loại sản phẩm</th>
+                                  <th>Tên đăng nhập</th>
+                                  <th>Mật khẩu</th>
+                                  <th>Họ tên</th>
+                                  <th>Giới tính</th>
+                                  <th>Email</th>
+                                  <th>Số điện thoại</th>
+                                  <th>Địa chỉ</th>
+                                  <th>Loại</th>
                                   <th></th>
                                   <th></th>
                               </tr>
                           </thead>
-                          <!-- <tfoot>
-                              <tr>
-                                  <th>Tên sản phẩm</th>
-                                  <th>Mô tả sản phẩm</th>
-                                  <th>Giá</th>
-                                  <th>Giảm giá</th>
-                                  <th>Số lượng</th>
-                                  <th>Ngày tạo</th>
-                                  <th>Loại sản phẩm</th>
-                                  <th></th>
-                                  <th></th>
-                              </tr>
-                          </tfoot> -->
                           <tbody>
-                          <c:forEach var="lst" items="${lstPro }">
+                          <c:forEach var="lst" items="${lstUser }">
                               <tr>
+                                  <td>${lst.username }</td>
+                                  <td>${lst.password }</td>
                                   <td>${lst.name }</td>
-                                  <td>${lst.description }</td>
-                                  <td>${lst.price }</td>
-                                  <td><fmt:formatNumber value="${lst.discount }" type="percent"/></td>
-                                  <td>${lst.quantity }</td>
-                                  <td><fmt:formatDate value="${lst.created }" pattern="dd-MM-yyyy"/></td>
-                                  <td>${lst.category.name }</td>
-                                  <td><a href="admin/product/update/${lst.id }.htm" class="btn btn-outline-primary">Edit</a></td>
-                                  <td><a href="admin/product/delete/${lst.id }.htm" class="btn btn-outline-danger">Delete</a></td>
+                                  <td>${lst.gender ? 'Nam':'Nữ' }</td>
+                                  <td>${lst.email }</td>
+                                  <td>${lst.phone }</td>
+                                  <td>${lst.address }</td>
+                                  <td>${lst.userRole }</td>
+                                  <td><a href="admin/user/update/${lst.id }.htm" class="btn btn-outline-primary">Edit</a></td>
+                                  <td><a href="admin/user/delete/${lst.id }.htm" class="btn btn-outline-danger">Delete</a></td>
                               </tr>
                           </c:forEach>
                           </tbody>

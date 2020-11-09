@@ -23,7 +23,7 @@ public class Product {
 	@GeneratedValue
 	private Integer Id;
 	private String Name;
-	private Float Price;
+	private Double Price;
 	private String Photo;
 	private String Description;
 	private Float Discount;
@@ -56,11 +56,11 @@ public class Product {
 		Name = name;
 	}
 
-	public Float getPrice() {
+	public Double getPrice() {
 		return Price;
 	}
 
-	public void setPrice(Float price) {
+	public void setPrice(Double price) {
 		Price = price;
 	}
 

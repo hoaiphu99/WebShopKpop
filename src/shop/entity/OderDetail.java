@@ -22,7 +22,7 @@ public class OderDetail implements Serializable{
 	private Product product;
 	
 	private Integer Quantity;
-	private Float UnitPrice;
+	private Double UnitPrice;
 	
 	public Oder getOder() {
 		return oder;
@@ -42,10 +42,10 @@ public class OderDetail implements Serializable{
 	public void setQuantity(Integer quantity) {
 		Quantity = quantity;
 	}
-	public Float getUnitPrice() {
+	public Double getUnitPrice() {
 		return UnitPrice;
 	}
-	public void setUnitPrice(Float unitPrice) {
+	public void setUnitPrice(Double unitPrice) {
 		UnitPrice = unitPrice;
 	}
 	

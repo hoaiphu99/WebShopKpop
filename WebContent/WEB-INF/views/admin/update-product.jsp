@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Loại sản phẩm</label>
-                                        <form:select path="category.id" items="${listCate}" itemLabel="name" itemValue="id" >
+                                        <form:select class="form-control" path="category.id" items="${listCate}" itemLabel="name" itemValue="id" >
                                             
                                         </form:select>
                                     </div>
@@ -116,6 +116,7 @@
                                     </div>
                                     
                                     <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                    <a class="btn btn-secondary" href="admin/product/list.htm" role="button">Thoát</a>
                                 </form:form>
                             </div> <!-- end of col-md-6 -->
                         </div> <!-- end of row -->

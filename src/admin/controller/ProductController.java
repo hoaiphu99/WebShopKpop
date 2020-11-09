@@ -60,6 +60,7 @@ public class ProductController {
 			model.addAttribute("failAdd", "Tạo thất bại. Tên sản phẩm không được trùng!");
 			model.addAttribute("product", new Product());
 			model.addAttribute("listCate", listCate());
+			return "admin/add-product";
 		}
 		
 		model.addAttribute("successAdd", "Tạo thành công.");
@@ -104,6 +105,36 @@ public class ProductController {
 		} catch (Exception e) {
 			t.rollback();
 			model.addAttribute("msg", "Cập nhật thất bại!");
+		}
+		
+		return "redirect:/admin/product/list.htm";
+	}
+	
+	// xóa sản phẩm
+	@RequestMapping(value="delete/{id}" , method = RequestMethod.GET)
+	public String delete(ModelMap model, @PathVariable("id") Integer id) {
+		Session ss = factory.getCurrentSession();
+		String hql = "FROM Product p WHERE p.Id = :id";
+		Query query = ss.createQuery(hql);
+		query.setParameter("id", id);
+		Product product = (Product) query.uniqueResult();
+		model.addAttribute("product", product);
+		model.addAttribute("listCate", listCate());
+		return "admin/delete-product";
+	}
+	
+	@RequestMapping(value="delete" , method = RequestMethod.POST)
+	public String delete(ModelMap model, @ModelAttribute("product") Product product, @RequestParam("attachment") MultipartFile photo, BindingResult errors) {
+		Session ss = factory.openSession();
+		Transaction t = ss.beginTransaction();
+		try {
+			
+			ss.delete(product);
+			t.commit();
+			model.addAttribute("msg", "Xóa thành công!");
+		} catch (Exception e) {
+			t.rollback();
+			model.addAttribute("msg", "Xóa thất bại!");
 		}
 		
 		return "redirect:/admin/product/list.htm";

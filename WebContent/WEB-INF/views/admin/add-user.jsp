@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kpop Shop - Thêm sản phẩm mới</title>
+    <title>Thêm người dùng mới</title>
 	<base href="${pageContext.servletContext.contextPath}/">
     <!-- Custom fonts for this template-->
     <link href="resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -22,7 +22,7 @@
 
     <!-- Custom styles for this template-->
     <link href="resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
-
+	 
 </head>
 
 <body id="page-top">
@@ -49,7 +49,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Thêm sản phẩm mới</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Thêm người dùng mới</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -72,47 +72,55 @@
 								<b>${successAdd}</b>
 							</p>
 						</div>
-                                <form:form action="admin/product/add.htm" method="POST" modelAttribute="product" enctype="multipart/form-data">
+                                <form:form action="admin/user/add.htm" method="POST" modelAttribute="user">
                                     <div class="form-group">
-                                        <label>Tên sản phẩm</label>
+                                        <label>Tên đăng nhập</label>
+                                        <form:input path="username" type="text" class="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Mật khẩu</label>
+                                        <form:input path="password" type="password" class="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Nhập lại mật khẩu</label>
+                                        <input type="password" name="confirm_password" class="form-control"></input>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Họ tên</label>
                                         <form:input path="name" type="text" class="form-control"/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Loại sản phẩm</label>
-                                        <form:select class="form-control" path="category.id" items="${listCate}" itemLabel="name" itemValue="id" >
-                                            
-                                        </form:select>
+									    <label >Giới tính</label>
+									    <div class="col-sm-6">
+										    <div class="form-check form-check-inline">
+												<form:radiobutton path="gender" value="true" class="form-check-input"/>
+												<label for="gender" class="form-check-label">Nam</label>
+											</div>
+										    <div class="form-check form-check-inline">
+												<form:radiobutton path="gender" value="false" class="form-check-input"/>
+												<label for="gender" class="form-check-label">Nữ</label>
+											</div>
+											
+					  					</div>	
+								    </div>
+                                    <div class="form-group">
+                                        <label for="">Email</label>
+                                        <form:input path="email" type="email" class="form-control"/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Mô tả</label>
-                                        <form:input type="textarea" path="description" class="form-control" placeholder=""/>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="">Giá sản phẩm</label>
-                                            <form:input type="text" path="price" class="form-control" placeholder=""/>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="">Giảm giá (Nếu có)</label>
-                                            <div class="input-group-prepend">
-                                                <form:input type="text" path="discount" class="form-control" placeholder=""/>
-                                                <span class="input-group-text" id="inputGroupPrepend">%</span>
-                                            </div>
-                                        </div>
+                                        <label for="">Số điện thoại</label>
+                                        <form:input path="phone" type="number" class="form-control"/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Số lượng</label>
-                                        <form:input type="text" path="quantity" class="form-control" placeholder=""/>
+                                        <label for="">Địa chỉ</label>
+                                        <form:input path="address" type="textarea" class="form-control"/>
                                     </div>
                                     <div class="form-group">
-                                         <div class="btn btn-default btn-file">
-											<i class="fa fa-paperclip"> </i> Image <input type="file"
-												name="attachment">
-										</div>
+                                        <label for="">Loại người dùng</label>
+                                        <form:select class="form-control" path="userRole" items="${lstUserRole}"/>
                                     </div>
-                                    
                                     <button type="submit" class="btn btn-primary">Thêm</button>
-                                    <a class="btn btn-secondary" href="admin/product/list.htm" role="button">Thoát</a>
+                                    <a class="btn btn-secondary" href="admin/user/list.htm" role="button">Thoát</a>
                                 </form:form>
                             </div> <!-- end of col-md-6 -->
                         </div> <!-- end of row -->
@@ -165,7 +173,8 @@
     <!-- Page level custom scripts -->
     <script src="resources/admin/js/demo/chart-area-demo.js"></script>
     <script src="resources/admin/js/demo/chart-pie-demo.js"></script>
-
+	
+	
 </body>
 
 </html>

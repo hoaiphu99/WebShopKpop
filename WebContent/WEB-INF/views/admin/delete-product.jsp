@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kpop Shop - Thêm sản phẩm mới</title>
+    <title>Kpop Shop - Chỉnh sửa sản phẩm</title>
 	<base href="${pageContext.servletContext.contextPath}/">
     <!-- Custom fonts for this template-->
     <link href="resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -49,7 +49,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Thêm sản phẩm mới</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa sản phẩm</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -72,37 +72,40 @@
 								<b>${successAdd}</b>
 							</p>
 						</div>
-                                <form:form action="admin/product/add.htm" method="POST" modelAttribute="product" enctype="multipart/form-data">
+                                <form:form action="admin/product/delete.htm" method="POST" modelAttribute="product" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label>Mã sản phẩm</label>
+                                        <form:input path="id" type="text" class="form-control" readonly="true"/>
+                                    </div>
                                     <div class="form-group">
                                         <label>Tên sản phẩm</label>
-                                        <form:input path="name" type="text" class="form-control"/>
+                                        <form:input path="name" type="text" class="form-control" readonly="true"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Loại sản phẩm</label>
-                                        <form:select class="form-control" path="category.id" items="${listCate}" itemLabel="name" itemValue="id" >
-                                            
-                                        </form:select>
+                                        <form:select path="category.id" items="${listCate}" itemLabel="name" itemValue="id" readonly="true" class="form-control"/>
+                        
                                     </div>
                                     <div class="form-group">
                                         <label for="">Mô tả</label>
-                                        <form:input type="textarea" path="description" class="form-control" placeholder=""/>
+                                        <form:input type="textarea" path="description" class="form-control" placeholder="" readonly="true"/>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="">Giá sản phẩm</label>
-                                            <form:input type="text" path="price" class="form-control" placeholder=""/>
+                                            <form:input type="text" path="price" class="form-control" placeholder="" readonly="true"/>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="">Giảm giá (Nếu có)</label>
                                             <div class="input-group-prepend">
-                                                <form:input type="text" path="discount" class="form-control" placeholder=""/>
+                                                <form:input type="text" path="discount" class="form-control" placeholder="" readonly="true"/>
                                                 <span class="input-group-text" id="inputGroupPrepend">%</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Số lượng</label>
-                                        <form:input type="text" path="quantity" class="form-control" placeholder=""/>
+                                        <form:input type="text" path="quantity" class="form-control" placeholder="" readonly="true"/>
                                     </div>
                                     <div class="form-group">
                                          <div class="btn btn-default btn-file">
@@ -111,7 +114,7 @@
 										</div>
                                     </div>
                                     
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                    <button type="submit" class="btn btn-primary">Xóa</button>
                                     <a class="btn btn-secondary" href="admin/product/list.htm" role="button">Thoát</a>
                                 </form:form>
                             </div> <!-- end of col-md-6 -->

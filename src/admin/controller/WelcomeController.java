@@ -33,54 +33,6 @@ public class WelcomeController {
 		return "admin/index";
 	}
 	
-	@RequestMapping(value="login", method = RequestMethod.GET)
-	public String login(ModelMap model) {
-		model.addAttribute("user", new User());
-		return "admin/login";
-	}
-	
-	@RequestMapping(value="login", method = RequestMethod.POST)
-	public String login(ModelMap model, HttpSession session ,@ModelAttribute("user") User user, BindingResult errors) {
-		if(user.getUsername().trim().length() == 0)
-			errors.rejectValue("username", "user", "Tên đăng nhập không được bỏ trống!");
-		if(user.getPassword().trim().length() == 0)
-			errors.rejectValue("password", "user", "Mật khẩu không được bỏ trống!");
-		if(errors.hasErrors())
-			return "admin/login";
-		
-		Session ss = factory.getCurrentSession();
-		String hql = "FROM User";
-		Query query = ss.createQuery(hql);
-		List<User> lstAcc = query.list();
-		
-		for (User i : lstAcc) {
-			if(user.getUsername().equals(i.getUsername()) && user.getPassword().equals(i.getPassword())) {
-				this.mUser = i;
-				if(this.mUser.getUserRole().equals("admin")) {
-					session.setAttribute("mUser", this.mUser);
-					return "redirect:/admin/index.htm";
-				}
-				else {
-					session.setAttribute("mUser", this.mUser);
-					return "redirect:/index.htm";
-				}
-				
-			}
-		}
-		model.addAttribute("msg", "Sai thông tin đăng nhập");
-		return "admin/login";
-	}
-	
-	@RequestMapping("logout")
-	public String logout(HttpSession session, HttpServletRequest request) {
-		session = request.getSession();
-//		User u = new User();
-//		u = (User) session.getAttribute("mUser");
-		session.removeAttribute("mUser");
-		return "redirect:/index.htm";
-	}
-	
-	
 	public int totalItem() {
 		Session ss = factory.getCurrentSession();
 		String hql = "SELECT COUNT(p) FROM Product p";

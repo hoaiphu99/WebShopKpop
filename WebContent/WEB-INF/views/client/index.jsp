@@ -114,22 +114,22 @@
         </div>
         <div class="row property__gallery">
         <c:forEach var="i" items="${lstPro }">
-        	<div class="col-lg-3 col-md-4 col-sm-6 mix ${i[5] }">
+        	<div class="col-lg-3 col-md-4 col-sm-6 mix ${i.category.name }">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/${i[4] }" onclick="location.href='${i[5] }/${i[6]}.htm'">
+                    <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/${i.photo }" onclick="location.href='${i.category.name }/${i.id}.htm'">
                         <c:choose>
-                        	<c:when test="${i[3] == 0 }"><div class="label stockout">Hết hàng</div></c:when>
-                        	<c:when test="${i[2] > 0}"><div class="label sale">Sale <fmt:formatNumber value="${i[2] }" type="percent"/></div></c:when>
+                        	<c:when test="${i.quantity == 0 }"><div class="label stockout">Hết hàng</div></c:when>
+                        	<c:when test="${i.discount > 0}"><div class="label sale">Sale <fmt:formatNumber value="${i.discount }" type="percent"/></div></c:when>
                         </c:choose>
                         <ul class="product__hover">
-                            <li><a href="resources/client/img/product/${i[4] }" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a href="resources/client/img/product/${i.photo }" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            <li><a href="add-cart/${i.id }.htm"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="${i[5] }/${i[6]}.htm">${i[0] }</a></h6>
-                        <div class="product__price"><fmt:formatNumber value = "${i[1] - i[1]*i[2]}" type = "number" maxFractionDigits = "0"/> VNĐ <c:if test="${i[2] != 0 }"><span><fmt:formatNumber value = "${i[1]}" type = "number" maxFractionDigits = "0"/> VNĐ</span></c:if></div>
+                        <h6><a href="${i.category.name }/${i.id}.htm">${i.name }</a></h6>
+                        <div class="product__price"><fmt:formatNumber value = "${i.price - i.price*i.discount}" type = "number" maxFractionDigits = "0"/> VNĐ <c:if test="${i.discount != 0 }"><span><fmt:formatNumber value = "${i.price}" type = "number" maxFractionDigits = "0"/> VNĐ</span></c:if></div>
                     </div>
                 </div>
             </div>

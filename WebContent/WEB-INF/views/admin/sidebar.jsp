@@ -81,8 +81,8 @@
             </a>
             <div id="collapseUser" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="utilities-color.html">Xem tất cả người dùng</a>
-                    <a class="collapse-item" href="utilities-border.html">Thêm người dùng mới</a>
+                    <a class="collapse-item" href="admin/user/list.htm">Xem tất cả người dùng</a>
+                    <a class="collapse-item" href="admin/user/add.htm">Thêm người dùng mới</a>
                 </div>
             </div>
         </li>
@@ -95,5 +95,7 @@
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
-
+		<div class="text-center d-none d-md-inline">
+            <a class="btn btn-primary" href="index.htm" role="button">Xem trang chủ</a>
+        </div>
         </ul>

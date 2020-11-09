@@ -44,7 +44,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Chào mừng!</h1>
                                     </div>
-                                    <form:form action="admin/login.htm" class="user" method="post" modelAttribute="user">
+                                    <form:form action="login.htm" class="user" method="post" modelAttribute="user">
                                     	<div class="col-form-label text-center"><span class="badge badge-danger">${msg }</span></div>
                                         <div class="form-group">
                                         	<form:input path="username" type="text" class="form-control form-control-user" placeholder="Tên đăng nhập"/>

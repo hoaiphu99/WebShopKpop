@@ -12,7 +12,7 @@
             <li><a href="#"><span class="icon_heart_alt"></span>
                 <div class="tip">2</div>
             </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
+            <li><a href="cart.htm"><span class="icon_bag_alt"></span>
                 <div class="tip">2</div>
             </a></li>
         </ul>
@@ -21,8 +21,8 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
-            <a href="admin/login.htm">Đăng nhập</a>
-            <a href="#">Đăng ký</a>
+            <a href="login.htm">Đăng nhập</a>
+            <a href="signin.htm">Đăng ký</a>
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -63,23 +63,20 @@
                     <div class="header__right">
                         <div class="header__right__auth">
                         	<c:choose>
-                        		<c:when test="${sessionScope.mUser == null }">
-                        			<a href="admin/login.htm">Đăng nhập</a>
-                            		<a href="#">Đăng ký</a>
+                        		<c:when test="${mUser == null }">
+                        			<a href="login.htm">Đăng nhập</a>
+                            		<a href="signin.htm">Đăng ký</a>
                        			</c:when>
                        			<c:otherwise>
-	                       			<a href="admin/logout.htm">Xin chào, ${sessionScope.mUser.name }</a>
+	                       			<a href="logout.htm">Xin chào, ${mUser.name }</a>
                        			</c:otherwise>
                         	</c:choose>
                             
                         </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
+                            <li><a href="gio-hang.htm"><span class="icon_bag_alt"></span>
+                                <div class="tip">${totalQuantityCart }</div>
                             </a></li>
                         </ul>
                     </div>
