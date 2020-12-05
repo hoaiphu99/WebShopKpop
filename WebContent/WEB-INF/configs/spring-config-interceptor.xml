@@ -20,13 +20,13 @@
 		
 		<!-- <bean class="shop.interceptor.LoggerInterceptor" /> -->
 		
-		<!-- Chỉ lọc các URL theo path -->
+		<!-- Chỉ lọc các URL trang admin -->
 		 <mvc:interceptor>	
 			<mvc:mapping path="/admin/**"/>
 			<bean class="shop.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 		
-		<!-- Chỉ lọc các URL theo path -->
+		<!-- Chỉ lọc các URL liên quan giỏ hàng -->
 		 <mvc:interceptor>
 			<mvc:mapping path="/xac-nhan-mua-hang.htm"/>
 			<mvc:mapping path="/gio-hang.htm"/>
@@ -34,6 +34,14 @@
 			<mvc:mapping path="/edit-cart/**"/>
 			<mvc:mapping path="/delete-cart/**"/>
 			<bean class="shop.interceptor.CartInterceptor" />
+		</mvc:interceptor>
+		
+		<!-- Chỉ lọc các URL trang thông tin user -->
+		 <mvc:interceptor>
+			<mvc:mapping path="/thong-tin-tai-khoan.htm"/>
+			<mvc:mapping path="/chinh-sua-thong-tin.htm"/>
+			<mvc:mapping path="/doi-mat-khau.htm"/>
+			<bean class="shop.interceptor.ProfileInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>  
 </beans>

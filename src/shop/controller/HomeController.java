@@ -27,7 +27,6 @@ import admin.controller.UserController;
 import shop.bean.Cart;
 import shop.entity.Product;
 import shop.entity.User;
-import shop.function.CartFunc;
 
 @Transactional
 @Controller

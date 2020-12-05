@@ -10,8 +10,7 @@
                     <div class="footer__logo">
                         <a href="./index.html"><img src="resources/client/img/logo.png" alt=""></a>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    cilisis.</p>
+                    <p>Shop chuyên bán đồ Kpop.</p>
                     <div class="footer__payment">
                         <a href="#"><img src="resources/client/img/payment/payment-1.png" alt=""></a>
                         <a href="#"><img src="resources/client/img/payment/payment-2.png" alt=""></a>
@@ -35,8 +34,8 @@
                 <div class="footer__widget">
                     <h6>Tài khoản</h6>
                     <ul>
-                        <li><a href="#">Tài khoản của tôi</a></li>
-                        <li><a href="#">Xem lại giỏ hàng</a></li>
+                        <li><a href="thong-tin-tai-khoan.htm">Tài khoản của tôi</a></li>
+                        <li><a href="gio-hang.htm">Xem lại giỏ hàng</a></li>
                     </ul>
                 </div>
             </div>

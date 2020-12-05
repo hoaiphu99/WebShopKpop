@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/views/admin/login.jsp=UTF-8
+encoding//WebContent/WEB-INF/views/client/profile-sidebar.jsp=UTF-8
+encoding//WebContent/WEB-INF/views/client/profile.jsp=UTF-8
 encoding//WebContent/resources/client/css/style.css=UTF-8
 encoding/<project>=UTF-8
 separateDerivedEncodings=true

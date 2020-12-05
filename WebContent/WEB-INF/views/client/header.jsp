@@ -68,7 +68,7 @@
                             		<a href="signin.htm">Đăng ký</a>
                        			</c:when>
                        			<c:otherwise>
-	                       			<a href="logout.htm">Xin chào, ${mUser.name }</a>
+	                       			<a href="thong-tin-tai-khoan.htm">Xin chào, ${mUser.name }</a>
                        			</c:otherwise>
                         	</c:choose>
                             

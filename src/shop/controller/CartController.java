@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import shop.bean.Cart;
 import shop.entity.Product;
-import shop.function.CartFunc;
 
 @Controller
 @Transactional
