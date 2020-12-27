@@ -12,7 +12,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Đăng nhập</title>
+    <title>Quên mật khẩu</title>
     <base href="${pageContext.servletContext.contextPath}/">
 
     <!-- Google Font -->
@@ -43,28 +43,28 @@
                     <h6 class="coupon__link"> Chưa có tài khoản? <a href="signin.htm" style="color: red;">Đăng ký ngay</a></h6>
                 </div>
             </div>
-            <form:form action="login.htm" modelAttribute="user" class="checkout__form">
+            <form action="quen-mat-khau.htm" class="checkout__form" method="POST">
                 <div class="row">
                 	<div class="col-lg-2"></div>
                     <div class="col-lg-8">
+                    	${msg }
                         <h5 class="text-center">Đăng nhập</h5>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Tên đăng nhập <span>*</span></p>
-                                    <form:input path="username" type="text"/>
+                                    <input type="text" name="username">
                                 </div>
                                 <div class="checkout__form__input">
-                                    <p>Mật khẩu <span>*</span></p>
-                                    <form:input path="password" type="password"/>
+                                    <p>Email khôi phục <span>*</span></p>
+                                    <input type="email" name="email">
                                 </div>
                             </div>
-                            <a href="quen-mat-khau.htm" class="forgotPW">Quên mật khẩu</a>
                         </div>
-                    	<button type="submit" class="site-btn loginout">Đăng nhập</button>
+                    	<button type="submit" class="site-btn loginout">Gửi email xác nhận</button>
                     </div>
                 </div>
-            </form:form>
+            </form>
         </div>
     </section>
         <!-- Checkout Section End -->

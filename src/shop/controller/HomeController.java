@@ -90,7 +90,9 @@ public class HomeController {
 		session = request.getSession();
 //		User u = new User();
 //		u = (User) session.getAttribute("mUser");
+		this.cart.clear();
 		session.removeAttribute("mUser");
+		session.removeAttribute("cart");
 		return "redirect:/index.htm";
 	}
 	

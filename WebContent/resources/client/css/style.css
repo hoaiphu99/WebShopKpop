@@ -106,6 +106,20 @@ ol {
 	margin: 0;
 }
 
+/*----------------
+	Custom
+----------------*/
+
+a.forgotPW {
+    font-size: 14px;
+	font-family: "Montserrat", sans-serif;
+	color: #dd1f1f;
+	font-weight: 400;
+	line-height: 24px;
+	margin: -10px 0 0 15px;
+	text-align: center;
+}
+
 /*---------------------
   Helper CSS
 -----------------------*/
