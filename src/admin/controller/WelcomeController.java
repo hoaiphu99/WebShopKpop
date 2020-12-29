@@ -31,6 +31,8 @@ public class WelcomeController {
 	public String manage(ModelMap model) {
 		model.addAttribute("totalPro", totalItem());
 		model.addAttribute("totalOrder", totalOrder());
+		model.addAttribute("revenue", revenue());
+		model.addAttribute("orderWait", orderWait());
 		return "admin/index";
 	}
 	
@@ -45,6 +47,22 @@ public class WelcomeController {
 	public int totalOrder() {
 		Session ss = factory.getCurrentSession();
 		String hql = "SELECT COUNT(*) FROM Order";
+		Query query = ss.createQuery(hql);
+		Long count = (Long) query.uniqueResult();
+		return count.intValue();
+	}
+	
+	public double revenue() {
+		Session ss = factory.getCurrentSession();
+		String hql = "SELECT SUM(TotalPrice) FROM Order WHERE status.Id = 2";
+		Query query = ss.createQuery(hql);
+		Double revenue = (Double) query.uniqueResult();
+		return revenue.intValue();
+	}
+	
+	public int orderWait() {
+		Session ss = factory.getCurrentSession();
+		String hql = "SELECT COUNT(*) FROM Order WHERE status.Id = 1";
 		Query query = ss.createQuery(hql);
 		Long count = (Long) query.uniqueResult();
 		return count.intValue();

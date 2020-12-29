@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import shop.entity.Order;
+import shop.entity.OrderDetail;
 import shop.entity.Product;
 import shop.entity.Status;
 
@@ -34,6 +35,13 @@ public class OrderController {
 		List<Order> list = query.list();
 		model.addAttribute("lstOrder", list);
 		return "admin/list-order";
+	}
+	
+	@RequestMapping(value="detail/{id}" , method = RequestMethod.GET)
+	public String update(ModelMap model, @PathVariable("id") Integer id) {
+		Order order = getOrder(id);
+		model.addAttribute("order", order);
+		return "admin/order-detail";
 	}
 	
 	@RequestMapping(value="accept/{id}")
@@ -76,6 +84,27 @@ public class OrderController {
 		return "redirect:/admin/order/tat-ca-don-hang.htm";
 	}
 	
+	@RequestMapping(value="don-hang-da-xac-nhan", method = RequestMethod.GET)
+	public String orderAccept(ModelMap model) {
+		List<Order> lst = listOrder(2);
+		model.addAttribute("lstOrder", lst);
+		return "admin/list-order-accept";
+	}
+	
+	@RequestMapping(value="don-hang-dang-xac-nhan", method = RequestMethod.GET)
+	public String orderWait(ModelMap model) {
+		List<Order> lst = listOrder(1);
+		model.addAttribute("lstOrder", lst);
+		return "admin/list-order-wait";
+	}
+	
+	@RequestMapping(value="don-hang-da-huy", method = RequestMethod.GET)
+	public String orderCancel(ModelMap model) {
+		List<Order> lst = listOrder(3);
+		model.addAttribute("lstOrder", lst);
+		return "admin/list-order-cancel";
+	}
+	
 	/* các hàm xử lý */
 	
 	public Order getOrder(int id) {
@@ -96,5 +125,15 @@ public class OrderController {
 		Status status = (Status) query.uniqueResult();
 		session.clear();
 		return status;
+	}
+	
+	public List<Order> listOrder(int type) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM Order WHERE status.Id = :status";
+		Query query = session.createQuery(hql);
+		query.setParameter("status", type);
+		List<Order> lst = query.list();
+		session.clear();
+		return lst;
 	}
 }

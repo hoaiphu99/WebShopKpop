@@ -44,7 +44,7 @@
         </li>
         
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Quản lý loại sản phẩm</span>
@@ -55,7 +55,7 @@
                     <a class="collapse-item" href="admin/add-new-cate.htm">Thêm loại sản phẩm</a>
                 </div>
             </div>
-        </li>
+        </li> -->
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
@@ -66,9 +66,9 @@
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="admin/order/tat-ca-don-hang.htm">Xem tất cả đơn hàng</a>
-                    <a class="collapse-item" href="utilities-border.html">Đơn hàng đã giao</a>
-                    <a class="collapse-item" href="utilities-animation.html">Đơn hàng đang chờ</a>
-                    <a class="collapse-item" href="utilities-other.html">Đơn hàng đã hủy</a>
+                    <a class="collapse-item" href="admin/order/don-hang-da-xac-nhan.htm">Đơn hàng đã xác nhận</a>
+                    <a class="collapse-item" href="admin/order/don-hang-dang-xac-nhan.htm">Đơn hàng đang xác nhận</a>
+                    <a class="collapse-item" href="admin/order/don-hang-da-huy.htm">Đơn hàng đã hủy</a>
                 </div>
             </div>
         </li>
