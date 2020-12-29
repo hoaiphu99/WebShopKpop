@@ -38,7 +38,7 @@ public class Product {
 	private Category category;
 	
 	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
-	private Collection<OderDetail> oderdetails;
+	private Collection<OrderDetail> orderdetails;
 
 	public Integer getId() {
 		return Id;
@@ -112,12 +112,12 @@ public class Product {
 		this.category = category;
 	}
 
-	public Collection<OderDetail> getOderdetails() {
-		return oderdetails;
+	public Collection<OrderDetail> getOrderdetails() {
+		return orderdetails;
 	}
 
-	public void setOderdetails(Collection<OderDetail> oderdetails) {
-		this.oderdetails = oderdetails;
+	public void setOrderdetails(Collection<OrderDetail> orderdetails) {
+		this.orderdetails = orderdetails;
 	}
 
 	

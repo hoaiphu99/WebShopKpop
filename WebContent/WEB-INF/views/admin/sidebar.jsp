@@ -65,7 +65,7 @@
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="utilities-color.html">Xem tất cả đơn hàng</a>
+                    <a class="collapse-item" href="admin/order/tat-ca-don-hang.htm">Xem tất cả đơn hàng</a>
                     <a class="collapse-item" href="utilities-border.html">Đơn hàng đã giao</a>
                     <a class="collapse-item" href="utilities-animation.html">Đơn hàng đang chờ</a>
                     <a class="collapse-item" href="utilities-other.html">Đơn hàng đã hủy</a>

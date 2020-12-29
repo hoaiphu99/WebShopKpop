@@ -30,12 +30,21 @@ public class WelcomeController {
 	@RequestMapping("index")
 	public String manage(ModelMap model) {
 		model.addAttribute("totalPro", totalItem());
+		model.addAttribute("totalOrder", totalOrder());
 		return "admin/index";
 	}
 	
 	public int totalItem() {
 		Session ss = factory.getCurrentSession();
-		String hql = "SELECT COUNT(p) FROM Product p";
+		String hql = "SELECT COUNT(*) FROM Product";
+		Query query = ss.createQuery(hql);
+		Long count = (Long) query.uniqueResult();
+		return count.intValue();
+	}
+	
+	public int totalOrder() {
+		Session ss = factory.getCurrentSession();
+		String hql = "SELECT COUNT(*) FROM Order";
 		Query query = ss.createQuery(hql);
 		Long count = (Long) query.uniqueResult();
 		return count.intValue();

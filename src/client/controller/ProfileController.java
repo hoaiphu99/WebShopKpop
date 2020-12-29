@@ -223,15 +223,4 @@ public class ProfileController {
 		return gender;
 	}
 	
-	@ModelAttribute("menu")
-	public List<String> menu(ModelMap model){
-		List<String> menu = new ArrayList<String>();
-		menu.add("Album");
-		menu.add("Magazine");
-		menu.add("Photobook");
-		menu.add("Beauty");
-		menu.add("Fashion");
-		model.addAttribute("menu", menu);
-		return menu;
-	}
 }

@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import shop.bean.Cart;
-import shop.entity.Oder;
-import shop.entity.OderDetail;
+import shop.entity.Order;
+import shop.entity.OrderDetail;
 import shop.entity.Status;
 import shop.entity.User;
 
@@ -53,36 +53,39 @@ public class CheckoutController {
 		User u = new User();
 		u = (User) ss.getAttribute("mUser");
 		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>)ss.getAttribute("cart");
+		double totalPriceCart = (double) ss.getAttribute("totalPriceCart");
+		int totalQuantityCart = (int) ss.getAttribute("totalQuantityCart");
 		
-		Oder oder = new Oder();
+		Order order = new Order();
 		
 		Status stt = getStatus(1);
-		Oder o = null;
+		Order o = null;
 		try {
-			oder.setUser(u);
-			oder.setCreated(new Date());
-			oder.setStatus(stt);
-			session.save(oder);
+			order.setUser(u);
+			order.setCreated(new Date());
+			order.setStatus(stt);
+			order.setTotalPrice(totalPriceCart);
+			order.setTotalQuantity(totalQuantityCart);
+			session.save(order);
 			t.commit();
-			o = getOder(oder.getId());
-			
+			o = getOder(order.getId());
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			t.rollback();
 		}
 		finally {
 			//session.close();
 		}
-		
 		if(o != null) {
 			for(Map.Entry<Integer, Cart> itemCart : cart.entrySet()) {
 				t = session.beginTransaction();
-				OderDetail oderDetail = new OderDetail();
+				OrderDetail orderDetail = new OrderDetail();
 				try {
-					oderDetail.setOder(o);
-					oderDetail.setProduct(itemCart.getValue().getProduct());
-					oderDetail.setQuantity(itemCart.getValue().getQuantity());
-					oderDetail.setUnitPrice(itemCart.getValue().getTotalPrice());
-					session.save(oderDetail);
+					orderDetail.setOrder(o);
+					orderDetail.setProduct(itemCart.getValue().getProduct());
+					orderDetail.setQuantity(itemCart.getValue().getQuantity());
+					orderDetail.setUnitPrice(itemCart.getValue().getTotalPrice());
+					session.save(orderDetail);
 					t.commit();
 				} catch (Exception e) {
 					t.rollback();
@@ -97,18 +100,6 @@ public class CheckoutController {
 		return "client/success-checkout";
 	}
 	
-	@ModelAttribute("menu")
-	public List<String> menu(ModelMap model){
-		List<String> menu = new ArrayList<String>();
-		menu.add("Album");
-		menu.add("Magazine");
-		menu.add("Photobook");
-		menu.add("Beauty");
-		menu.add("Fashion");
-		model.addAttribute("menu", menu);
-		return menu;
-	}
-	
 	public Status getStatus(int stt) {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM Status WHERE Id = :id";
@@ -118,12 +109,12 @@ public class CheckoutController {
 		return status;
 	}
 	
-	public Oder getOder(int stt) {
+	public Order getOder(int stt) {
 		Session session = factory.getCurrentSession();
-		String hql = "FROM Oder WHERE Id = :id";
+		String hql = "FROM Order WHERE Id = :id";
 		Query query = session.createQuery(hql);
 		query.setParameter("id", stt);
-		Oder oder = (Oder) query.uniqueResult();
+		Order oder = (Order) query.uniqueResult();
 		return oder;
 	}
 }

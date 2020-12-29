@@ -41,6 +41,7 @@
 			<mvc:mapping path="/thong-tin-tai-khoan.htm"/>
 			<mvc:mapping path="/chinh-sua-thong-tin.htm"/>
 			<mvc:mapping path="/doi-mat-khau.htm"/>
+			<mvc:mapping path="/xem-don-hang.htm"/>
 			<bean class="shop.interceptor.ProfileInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>  

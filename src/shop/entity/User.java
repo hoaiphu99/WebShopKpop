@@ -34,7 +34,7 @@ public class User {
 	private String UserRole;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-	private Collection<Oder> oders;
+	private Collection<Order> orders;
 	
 	
 	public Integer getId() {
@@ -97,11 +97,11 @@ public class User {
 	public void setUserRole(String userRole) {
 		UserRole = userRole;
 	}
-	public Collection<Oder> getOders() {
-		return oders;
+	public Collection<Order> getOrders() {
+		return orders;
 	}
-	public void setOders(Collection<Oder> oders) {
-		this.oders = oders;
+	public void setOrders(Collection<Order> orders) {
+		this.orders = orders;
 	}
 	
 	

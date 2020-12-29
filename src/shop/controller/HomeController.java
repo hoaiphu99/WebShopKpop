@@ -69,6 +69,7 @@ public class HomeController {
 					session.setAttribute("cart", this.cart);
 					session.setAttribute("totalQuantityCart", 0);
 					session.setAttribute("totalPriceCart", 0);
+					session.setAttribute("menu", menu());
 					return "redirect:/admin/index.htm";
 				}
 				else {
@@ -76,6 +77,7 @@ public class HomeController {
 					session.setAttribute("cart", this.cart);
 					session.setAttribute("totalQuantityCart", 0);
 					session.setAttribute("totalPriceCart", 0);
+					session.setAttribute("menu", menu());
 					return "redirect:/index.htm";
 				} 
 				
@@ -108,18 +110,21 @@ public class HomeController {
 			model.addAttribute("failAdd", "Mật khẩu không trùng khớp!");
 			model.addAttribute("user", new User());
 			model.addAttribute("lstUserRole", listUserRole());
+			model.addAttribute("gender", getGender());
 			return "client/register";
 		}
 		if(!create(user)) {
 			model.addAttribute("failAdd", "Tạo thất bại!");
 			model.addAttribute("user", new User());
 			model.addAttribute("lstUserRole", listUserRole());
+			model.addAttribute("gender", getGender());
 			return "client/register";
 		}
 		
 		model.addAttribute("successAdd", "Tạo thành công.");
 		model.addAttribute("user", new User());
 		model.addAttribute("lstUserRole", listUserRole());
+		model.addAttribute("gender", getGender());
 		return "client/register";
 	}
 	
@@ -145,16 +150,6 @@ public class HomeController {
 	
 	
 	// các model attribute
-	@ModelAttribute("menu")
-	public List<String> menu(){
-		List<String> menu = new ArrayList<String>();
-		menu.add("Album");
-		menu.add("Magazine");
-		menu.add("Photobook");
-		menu.add("Beauty");
-		menu.add("Fashion");
-		return menu;
-	}
 	
 	@ModelAttribute("lstPro")
 	public List<Product> getPro(){
@@ -166,7 +161,6 @@ public class HomeController {
 		return array;
 	}
 	
-	@ModelAttribute("lstUserRole")
 	public List<String> listUserRole(){
 		List<String> array = new ArrayList<>();
 		array.add("admin");
@@ -174,13 +168,11 @@ public class HomeController {
 		return array;
 	}
 	
-	@ModelAttribute("gender")
-	public String[] getGender() {
-		String[] gender = {
-				"true",
-				"false"
-		};
-		return gender;
+	public List<String> getGender() {
+		List<String> array = new ArrayList<>();
+		array.add("true");
+		array.add("false");
+		return array;
 	}
 	
 	// các hàm xử lý
@@ -203,4 +195,13 @@ public class HomeController {
 		return true;
 	}
 	
+	public List<String> menu(){
+		List<String> menu = new ArrayList<String>();
+		menu.add("Album");
+		menu.add("Magazine");
+		menu.add("Photobook");
+		menu.add("Beauty");
+		menu.add("Fashion");
+		return menu;
+	}
 }

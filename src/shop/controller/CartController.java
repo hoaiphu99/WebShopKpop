@@ -31,13 +31,7 @@ public class CartController {
 	
 	@RequestMapping("gio-hang")
 	public String cart(ModelMap model) {
-		List<String> menu = new ArrayList<String>();
-		menu.add("Album");
-		menu.add("Magazine");
-		menu.add("Photobook");
-		menu.add("Beauty");
-		menu.add("Fashion");
-		model.addAttribute("menu", menu);
+		
 		return "client/cart";
 	}
 	

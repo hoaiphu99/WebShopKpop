@@ -9,13 +9,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="OderDetails")
-public class OderDetail implements Serializable{
+@Table(name="OrderDetails")
+public class OrderDetail implements Serializable{
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name="OderID")
-	private Oder oder;
+	@JoinColumn(name="OrderID")
+	private Order order;
 	@Id
 	@ManyToOne
 	@JoinColumn(name="ProdID")
@@ -24,11 +24,11 @@ public class OderDetail implements Serializable{
 	private Integer Quantity;
 	private Double UnitPrice;
 	
-	public Oder getOder() {
-		return oder;
+	public Order getOrder() {
+		return order;
 	}
-	public void setOder(Oder oder) {
-		this.oder = oder;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 	public Product getProduct() {
 		return product;

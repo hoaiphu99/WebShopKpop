@@ -17,8 +17,8 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="Oders")
-public class Oder {
+@Table(name="Orders")
+public class Order {
 
 	@Id
 	@GeneratedValue
@@ -28,6 +28,9 @@ public class Oder {
 	@DateTimeFormat(pattern="DD/mm/yyyy")
 	private Date Created;
 	
+	private Double TotalPrice;
+	private Integer TotalQuantity;
+	
 	@ManyToOne
 	@JoinColumn(name="UserID")
 	private User user;
@@ -36,8 +39,8 @@ public class Oder {
 	@JoinColumn(name="StatusID")
 	private Status status;
 	
-	@OneToMany(mappedBy = "oder", fetch = FetchType.EAGER)
-	private Collection<OderDetail> oderdetails;
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+	private Collection<OrderDetail> orderdetails;
 
 	public Integer getId() {
 		return Id;
@@ -71,12 +74,28 @@ public class Oder {
 		this.status = status;
 	}
 
-	public Collection<OderDetail> getOderdetails() {
-		return oderdetails;
+	public Collection<OrderDetail> getOrderdetails() {
+		return orderdetails;
 	}
 
-	public void setOderdetails(Collection<OderDetail> oderdetails) {
-		this.oderdetails = oderdetails;
+	public void setOrderdetails(Collection<OrderDetail> orderdetails) {
+		this.orderdetails = orderdetails;
+	}
+
+	public Double getTotalPrice() {
+		return TotalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		TotalPrice = totalPrice;
+	}
+
+	public Integer getTotalQuantity() {
+		return TotalQuantity;
+	}
+
+	public void setTotalQuantity(Integer totalQuantity) {
+		TotalQuantity = totalQuantity;
 	}
 	
 	

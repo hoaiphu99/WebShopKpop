@@ -18,7 +18,7 @@ public class Status {
 	private String Name;
 	
 	@OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
-	private Collection<Oder> oders;
+	private Collection<Order> oders;
 	
 	public Integer getId() {
 		return Id;
@@ -32,10 +32,10 @@ public class Status {
 	public void setName(String name) {
 		Name = name;
 	}
-	public Collection<Oder> getOders() {
+	public Collection<Order> getOders() {
 		return oders;
 	}
-	public void setOders(Collection<Oder> oders) {
+	public void setOders(Collection<Order> oders) {
 		this.oders = oders;
 	}
 	

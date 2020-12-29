@@ -120,6 +120,19 @@ a.forgotPW {
 	text-align: center;
 }
 
+.order {
+    border: solid 1px;
+    padding: 15px 15px 15px 15px;
+    border-radius: 20px;
+    border-color: #e5e5e54d;
+    background-color: #e5e5e54d;
+}
+
+.status {
+    color: red;
+    float: right;
+}
+
 /*---------------------
   Helper CSS
 -----------------------*/
