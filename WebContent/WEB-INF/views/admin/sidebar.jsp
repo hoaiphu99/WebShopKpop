@@ -23,8 +23,7 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
-
-        <!-- Heading -->
+		
         <div class="sidebar-heading">
             Chức năng
         </div>
@@ -32,7 +31,7 @@
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
+                <i class="fab fa-product-hunt"></i>
                 <span>Quản lý sản phẩm</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -43,24 +42,10 @@
             </div>
         </li>
         
-        <!-- Nav Item - Pages Collapse Menu -->
-        <!-- <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Quản lý loại sản phẩm</span>
-            </a>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="buttons.html">Xem tất cả</a>
-                    <a class="collapse-item" href="admin/add-new-cate.htm">Thêm loại sản phẩm</a>
-                </div>
-            </div>
-        </li> -->
-
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
+                <i class="fas fa-shopping-cart"></i>
                 <span>Quản lý đơn hàng</span>
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -76,7 +61,7 @@
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
-                <i class="fas fa-fw fa-wrench"></i>
+                <i class="fas fa-users"></i>
                 <span>Quản lý người dùng</span>
             </a>
             <div id="collapseUser" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -87,6 +72,32 @@
             </div>
         </li>
 
+		<!-- Divider -->
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            Giao diện
+        </div>
+		<!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+         <a class="nav-link collapsed" href="admin/hot-trend/list.htm">
+             <i class="fas fa-sliders-h"></i>
+             <span>Hot Trend</span>
+         </a>
+         <a class="nav-link collapsed" href="admin/feature/add.htm">
+             <i class="fas fa-sliders-h"></i>
+             <span>Feature</span>
+         </a>
+         <a class="nav-link collapsed" href="admin/slider/list.htm">
+             <i class="fas fa-sliders-h"></i>
+             <span>Slider Discount</span>
+         </a>
+         <a class="nav-link collapsed" href="admin/banner/list.htm">
+             <i class="fas fa-sliders-h"></i>
+             <span>Banner Discount</span>
+         </a>
+                
+        </li>
+        <!-- Heading -->
         
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">

@@ -33,6 +33,7 @@ public class ProductController {
 	SessionFactory factory;
 	@Autowired
 	ServletContext context;
+	Product p;
 	
 	// thêm sản phẩm
 	@RequestMapping(value="add", method=RequestMethod.GET)
@@ -78,6 +79,7 @@ public class ProductController {
 		Query query = ss.createQuery(hql);
 		query.setParameter("id", id);
 		Product product = (Product) query.uniqueResult();
+		p = product;
 		model.addAttribute("product", product);
 		model.addAttribute("listCate", listCate());
 		return "admin/update-product";
@@ -89,15 +91,15 @@ public class ProductController {
 		Transaction t = ss.beginTransaction();
 		try {
 			if(photo.isEmpty()) {
-				model.addAttribute("msgEmpty", "Vui lòng chọn file!");
+				product.setPhoto(p.getPhoto());
 			}
 			try {
 				String path = context.getRealPath("/resources/client/img/product/" + photo.getOriginalFilename());
 				photo.transferTo(new File(path));
+				product.setPhoto(photo.getOriginalFilename());
 			} catch (Exception e) {
 				model.addAttribute("failFile", "Lỗi upload file ảnh!");
 			}
-			product.setPhoto(photo.getOriginalFilename());
 			product.setCreated(new Date());
 			ss.update(product);
 			t.commit();

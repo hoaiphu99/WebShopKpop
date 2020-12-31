@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import admin.controller.UserController;
 import shop.bean.Cart;
+import shop.entity.BannerDiscount;
+import shop.entity.Feature;
+import shop.entity.HotTrend;
 import shop.entity.Product;
+import shop.entity.SliderDiscount;
 import shop.entity.User;
 
 @Transactional
@@ -37,7 +42,8 @@ public class HomeController {
 	SessionFactory factory;
 	
 	@RequestMapping("index")
-	public String homePage() {
+	public String homePage(HttpSession session) {
+		session.setAttribute("menu", menu());
 		return "client/index";
 	}
 	
@@ -69,7 +75,7 @@ public class HomeController {
 					session.setAttribute("cart", this.cart);
 					session.setAttribute("totalQuantityCart", 0);
 					session.setAttribute("totalPriceCart", 0);
-					session.setAttribute("menu", menu());
+					
 					return "redirect:/admin/index.htm";
 				}
 				else {
@@ -77,7 +83,7 @@ public class HomeController {
 					session.setAttribute("cart", this.cart);
 					session.setAttribute("totalQuantityCart", 0);
 					session.setAttribute("totalPriceCart", 0);
-					session.setAttribute("menu", menu());
+					
 					return "redirect:/index.htm";
 				} 
 				
@@ -131,11 +137,45 @@ public class HomeController {
 	@RequestMapping(value="category/{category}", method=RequestMethod.GET)
 	public String showCate(ModelMap model, @PathVariable("category") String category) {
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM Product p WHERE p.category.Name = '" + category + "'";
+		
+		String hql = "SELECT COUNT(*) FROM Product WHERE category.Name = '" + category + "'";
 		Query query = ss.createQuery(hql);
+		long totalPro = (long) query.uniqueResult();
+		int totalPage = (int) (totalPro / 8 + ((totalPro % 8 == 0) ? 0 : 1));
+		
+		hql = "FROM Product p WHERE p.category.Name = '" + category + "'";
+		query = ss.createQuery(hql);
+		query.setFirstResult(0);
+		query.setMaxResults(8);
 		List<Product> arrays = query.list();
+		
 		model.addAttribute("lstProCate", arrays);
 		model.addAttribute("cateName", category);
+		model.addAttribute("totalPage", totalPage);
+		return "client/category";
+	}
+	
+	@RequestMapping(value="category/{category}/page{stt}", method=RequestMethod.GET)
+	public String showCatePage(ModelMap model, @PathVariable("category") String category, @PathVariable("stt") int stt) {
+		Session ss = factory.getCurrentSession();
+		String hql = "SELECT COUNT(*) FROM Product WHERE category.Name = '" + category + "'";
+		Query query = ss.createQuery(hql);
+		long totalPro = (long) query.uniqueResult();
+		int totalPage = (int) (totalPro / 8 + ((totalPro % 8 == 0) ? 0 : 1));
+		
+		if(stt > totalPage)
+			return "redirect:/category/" + category +".htm";
+		
+		hql = "FROM Product p WHERE p.category.Name = '" + category + "'";
+		query = ss.createQuery(hql);
+		query.setFirstResult((stt - 1) * 8);
+		query.setMaxResults(8);
+		List<Product> arrays = query.list();
+		
+		model.addAttribute("lstProCate", arrays);
+		model.addAttribute("cateName", category);
+		model.addAttribute("totalPage", totalPage);
+		
 		return "client/category";
 	}
 	
@@ -204,4 +244,75 @@ public class HomeController {
 		menu.add("Fashion");
 		return menu;
 	}
+	
+	@ModelAttribute("lstHot")
+	public List<HotTrend> getProHotTrend(){
+		Session ss = factory.getCurrentSession();
+		String hql = "FROM HotTrend ORDER BY Created";
+		Query query = ss.createQuery(hql);
+		query.setMaxResults(3);
+		List<HotTrend> list = query.list();
+		return list;
+	}
+	
+	@ModelAttribute("lstSlider")
+	public List<SliderDiscount> getSlider(){
+		Session ss = factory.getCurrentSession();
+		String hql = "FROM SliderDiscount ORDER BY Created";
+		Query query = ss.createQuery(hql);
+		query.setFirstResult(0);
+		query.setMaxResults(3);
+		List<SliderDiscount> list = query.list();
+		
+		return list;
+	}
+	
+	@ModelAttribute("lstBanner")
+	public List<BannerDiscount> getBanner(){
+		Session ss = factory.getCurrentSession();
+		String hql = "FROM BannerDiscount ORDER BY Created";
+		Query query = ss.createQuery(hql);
+		query.setFirstResult(0);
+		query.setMaxResults(1);
+		List<BannerDiscount> list = query.list();
+		
+		return list;
+	}
+	
+	@ModelAttribute("lstBestSaler") 
+	public List<Object[]> getProdBestSaler(){ 
+		Session ss = factory.getCurrentSession(); 
+		String hql = "SELECT d.product.Id, d.product.Name, d.product.Photo, d.product.Price, d.product.Discount, d.product.category.Name, SUM(d.Quantity)"
+				+ " FROM OrderDetail d WHERE d.order.status.Id != 1 AND d.order.status.Id != 3 GROUP BY d.product.Id, d.product.Name, d.product.Photo, d.product.Price, d.product.Discount, d.product.category.Id, d.product.category.Name ORDER BY SUM(d.Quantity) DESC"; 
+	    Query query = ss.createQuery(hql);
+	    query.setFirstResult(0);
+	    query.setMaxResults(3);
+	    List<Object[]> list = query.list(); 
+	    return list; 
+    }
+	
+	@ModelAttribute("lstFeature") 
+	public List<Object[]> getProdFeature(){ 
+		Session ss = factory.getCurrentSession();
+		String hql = "SELECT DateStart, DateEnd FROM Feature";
+		Query query = ss.createQuery(hql);
+		query.setFirstResult(0);
+	    query.setMaxResults(1);
+	    List<Object[]> date = query.list();
+
+		hql = "SELECT d.product.Id, d.product.Name, d.product.Photo, d.product.Price, d.product.Discount, d.product.category.Name, SUM(d.Quantity) "
+				+ "FROM OrderDetail d WHERE d.order.Created BETWEEN :start AND :end AND d.order.status.Id != 1 AND d.order.status.Id != 3 "
+				+ "GROUP BY d.product.Id, d.product.Name, d.product.Photo, d.product.Price, d.product.Discount, d.product.category.Name "
+				+ "ORDER BY SUM(d.Quantity) DESC"; 
+	    query = ss.createQuery(hql);
+	    query.setParameter("start", date.get(0)[0]);
+	    query.setParameter("end", date.get(0)[1]);
+	    query.setFirstResult(0);
+	    query.setMaxResults(3);
+	    List<Object[]> list = query.list(); 
+	    return list; 
+    }
+  
+	 
+	 
 }

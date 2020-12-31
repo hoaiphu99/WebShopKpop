@@ -133,6 +133,10 @@ a.forgotPW {
     float: right;
 }
 
+a.trend_text {
+    color: #111111;
+}
+
 /*---------------------
   Helper CSS
 -----------------------*/

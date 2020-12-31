@@ -52,7 +52,7 @@
                         <div class="categories__item set-bg" data-setbg="resources/client/img/categories/category-2.jpg">
                             <div class="categories__text">
                                 <h4>${menu[1] }</h4>
-                                <p>358 items</p>
+                                <!-- <p>358 items</p> -->
                                 <a href="category/${menu[1] }.htm">Mua ngay</a>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                         <div class="categories__item set-bg" data-setbg="resources/client/img/categories/category-3.jpg">
                             <div class="categories__text">
                                 <h4>${menu[2] }</h4>
-                                <p>273 items</p>
+                                <!-- <p>273 items</p> -->
                                 <a href="category/${menu[2] }.htm">Mua ngay</a>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div class="categories__item set-bg" data-setbg="resources/client/img/categories/category-4.jpg">
                             <div class="categories__text">
                                 <h4>${menu[3] }</h4>
-                                <p>159 items</p>
+                                <!-- <p>159 items</p> -->
                                 <a href="category/${menu[3] }.htm">Mua ngay</a>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                         <div class="categories__item set-bg" data-setbg="resources/client/img/categories/category-5.jpg">
                             <div class="categories__text">
                                 <h4>${menu[4] }</h4>
-                                <p>792 items</p>
+                                <!-- <p>792 items</p> -->
                                 <a href="category/${menu[4] }.htm">Mua ngay</a>
                             </div>
                         </div>
@@ -145,27 +145,15 @@
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">
                 <div class="banner__slider owl-carousel">
-                    <div class="banner__item">
+                	<c:forEach var="i" items="${lstSlider }">
+                	<div class="banner__item">
                         <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="#">Shop now</a>
+                            <span>${i.smallTitle }</span>
+                            <h1>${i.bigTitle }</h1>
+                            <a href="${i.link }">Mua ngay</a>
                         </div>
                     </div>
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
+                	</c:forEach>
                 </div>
             </div>
         </div>
@@ -182,54 +170,17 @@
                     <div class="section-title">
                         <h4>Hot Trend</h4>
                     </div>
+                    <c:forEach var="i" items="${lstHot}">
                     <div class="trend__item">
                         <div class="trend__item__pic">
-                            <img src="img/trend/ht-1.jpg" alt="">
+                            <img src="resources/client/img/product/${i.product.photo }" alt="" style="width: 100px;">
                         </div>
                         <div class="trend__item__text">
-                            <h6>Chain bucket bag</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
+                            <h6><a href="${i.product.category.name }/${i.product.id}.htm" class="trend_text">${i.product.name }</a></h6>
+                            <div class="product__price"><fmt:formatNumber value = "${i.product.price - i.product.price*i.product.discount}" type = "number" maxFractionDigits = "0"/> VNĐ <c:if test="${i.product.discount != 0 }"><span><fmt:formatNumber value = "${i.product.price}" type = "number" maxFractionDigits = "0"/> VNĐ</span></c:if></div>
                         </div>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/ht-2.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Pendant earrings</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/ht-3.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Cotton T-Shirt</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6">
@@ -237,54 +188,17 @@
                     <div class="section-title">
                         <h4>Best seller</h4>
                     </div>
+                    <c:forEach var="i" items="${lstBestSaler }">
                     <div class="trend__item">
                         <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/bs-1.jpg" alt="">
+                            <img src="resources/client/img/product/${i[2] }" alt="" style="width: 100px;">
                         </div>
                         <div class="trend__item__text">
-                            <h6>Cotton T-Shirt</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
+                            <h6><a href="${i[5] }/${i[0]}.htm" class="trend_text">${i[1] }</a></h6>
+                        	<div class="product__price"><fmt:formatNumber value = "${i[3] - i[3]*i[4]}" type = "number" maxFractionDigits = "0"/> VNĐ <c:if test="${i[4] != 0 }"><span><fmt:formatNumber value = "${i[3]}" type = "number" maxFractionDigits = "0"/> VNĐ</span></c:if></div>
                         </div>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/bs-2.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Zip-pockets pebbled tote <br />briefcase</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/bs-3.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Round leather bag</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6">
@@ -292,54 +206,17 @@
                     <div class="section-title">
                         <h4>Feature</h4>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/f-1.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Bow wrap skirt</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
+                    <c:forEach var="i" items="${lstFeature}">
+                   	<div class="trend__item">
+                       <div class="trend__item__pic">
+                           <img src="resources/client/img/product/${i[2] }" alt="" style="width: 100px;">
+                       </div>
+                       <div class="trend__item__text">
+                            <h6><a href="${i[5] }/${i[0]}.htm" class="trend_text">${i[1] }</a></h6>
+                        	<div class="product__price"><fmt:formatNumber value = "${i[3] - i[3]*i[4]}" type = "number" maxFractionDigits = "0"/> VNĐ <c:if test="${i[4] != 0 }"><span><fmt:formatNumber value = "${i[3]}" type = "number" maxFractionDigits = "0"/> VNĐ</span></c:if></div>
+                       </div>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/f-2.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Metallic earrings</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="resources/client/img/trend/f-3.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Flap cross-body bag</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
@@ -353,35 +230,35 @@
         <div class="row">
             <div class="col-lg-6 p-0">
                 <div class="discount__pic">
-                    <img src="resources/client/img/discount.jpg" alt="">
+                    <img src="resources/client/img/banner/${lstBanner[0].image }" alt="" style="height:390px;">
                 </div>
             </div>
             <div class="col-lg-6 p-0">
                 <div class="discount__text">
                     <div class="discount__text__title">
-                        <span>Discount</span>
-                        <h2>Summer 2019</h2>
-                        <h5><span>Sale</span> 50%</h5>
+                        <span>${lstBanner[0].smallTitle }</span>
+                        <h2>${lstBanner[0].bigTitle }</h2>
+                        <h5><span>Sale</span> ${lstBanner[0].discount } %</h5>
                     </div>
                     <div class="discount__countdown" id="countdown-time">
                         <div class="countdown__item">
-                            <span>22</span>
-                            <p>Days</p>
+                            <span>${lstBanner[0].day }</span>
+                            <p>Ngày</p>
                         </div>
                         <div class="countdown__item">
-                            <span>18</span>
-                            <p>Hour</p>
+                            <span>12</span>
+                            <p>Giờ</p>
                         </div>
                         <div class="countdown__item">
-                            <span>46</span>
-                            <p>Min</p>
+                            <span>60</span>
+                            <p>Phút</p>
                         </div>
                         <div class="countdown__item">
-                            <span>05</span>
-                            <p>Sec</p>
+                            <span>60</span>
+                            <p>Giây</p>
                         </div>
                     </div>
-                    <a href="#">Shop now</a>
+                    <a href="${lstBanner[0].link }">Mua ngay</a>
                 </div>
             </div>
         </div>
