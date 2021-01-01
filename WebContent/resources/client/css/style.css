@@ -136,6 +136,11 @@ a.forgotPW {
 a.trend_text {
     color: #111111;
 }
+/* 
+.gioi-tinh {
+    width: auto;
+    margin-bottom: auto;
+} */
 
 /*---------------------
   Helper CSS
@@ -1424,7 +1429,7 @@ a.trend_text {
 
 .categories__accordion .card-heading a:after,
 .categories__accordion .card-heading>a.active[aria-expanded=false]:after {
-	content: "ï„‡";
+	content: "+";
 	font-size: 14px;
 	font-family: "FontAwesome";
 	color: #666666;
@@ -1434,7 +1439,7 @@ a.trend_text {
 }
 
 .categories__accordion .card-heading.active a:after {
-	content: "ï„†";
+	content: "+";
 	font-size: 14px;
 	font-family: "FontAwesome";
 	color: #666666;
@@ -1445,7 +1450,7 @@ a.trend_text {
 
 .categories__accordion .card-heading a[aria-expanded=true]:after,
 .categories__accordion .card-heading>a.active:after {
-	content: "ï„†";
+	content: "+";
 	font-size: 14px;
 	font-family: "FontAwesome";
 	color: #666666;

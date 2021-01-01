@@ -39,34 +39,54 @@ public class ProductController {
 	@RequestMapping(value="add", method=RequestMethod.GET)
 	public String add(ModelMap model) {
 		model.addAttribute("product", new Product());
-		model.addAttribute("listCate", listCate());
 		return "admin/add-product";
 	}
 	
 	@RequestMapping(value="add", method=RequestMethod.POST)
-	public String add(ModelMap model, @ModelAttribute("product") Product product, @RequestParam("attachment") MultipartFile photo ) {
+	public String add(ModelMap model, @ModelAttribute("product") Product product, @RequestParam("attachment") MultipartFile photo, BindingResult errors) {
+		if(product.getName().trim().length() == 0)
+			errors.rejectValue("name", "product", "Tên sản phẩm không được bỏ trống!");
+		if(product.getPrice() == null)
+			errors.rejectValue("price", "product", "Giá không được bỏ trống!");
+		if(product.getPrice() != null && product.getPrice() < 0)
+			errors.rejectValue("price", "product", "Giá không âm!");
+		if(product.getQuantity() == null)
+			errors.rejectValue("quantity", "product", "Số lượng không được bỏ trống!");
+		if(product.getQuantity() != null && product.getQuantity() < 0)
+			errors.rejectValue("quantity", "product", "Số lượng không âm!");
+		if(errors.hasErrors()) {
+			return "admin/add-product";
+		}
+			
 		
 		if(photo.isEmpty()) {
-			model.addAttribute("msgEmpty", "Vui lòng chọn file!");
-		}
-		try {
-			String path = context.getRealPath("/resources/client/img/product/" + photo.getOriginalFilename());
-			photo.transferTo(new File(path));
-			System.out.print(path);
-		} catch (Exception e) {
-			model.addAttribute("failFile", "Lỗi upload file ảnh!");
-		}
-		product.setPhoto(photo.getOriginalFilename());
-		if(!create(product)) {
-			model.addAttribute("failAdd", "Tạo thất bại. Tên sản phẩm không được trùng!");
-			model.addAttribute("product", new Product());
-			model.addAttribute("listCate", listCate());
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Vui lòng chọn file ảnh!\r\n"
+					+ "					</div>");
 			return "admin/add-product";
 		}
 		
-		model.addAttribute("successAdd", "Tạo thành công.");
-		model.addAttribute("product", new Product());
-		model.addAttribute("listCate", listCate());
+		try {
+			String path = context.getRealPath("/resources/client/img/product/" + photo.getOriginalFilename());
+			photo.transferTo(new File(path));
+		} catch (Exception e) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Lỗi upload file ảnh!\r\n"
+					+ "					</div>");
+			return "admin/add-product";
+		}
+		product.setPhoto(photo.getOriginalFilename());
+		
+		if(!create(product)) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Tạo thất bại tên sản phẩm không được trùng!\r\n"
+					+ "					</div>");
+			return "admin/add-product";
+		}
+		
+		model.addAttribute("msg", "<div class=\"alert alert-success\" role=\"alert\">\r\n"
+				+ "					  Tạo thành công!\r\n"
+				+ "					</div>");
 		
 		return "admin/add-product";
 	}
@@ -81,12 +101,25 @@ public class ProductController {
 		Product product = (Product) query.uniqueResult();
 		p = product;
 		model.addAttribute("product", product);
-		model.addAttribute("listCate", listCate());
 		return "admin/update-product";
 	}
 	
 	@RequestMapping(value="update" , method = RequestMethod.POST)
 	public String update(ModelMap model, @ModelAttribute("product") Product product, @RequestParam("attachment") MultipartFile photo, BindingResult errors) {
+		if(product.getName().trim().length() == 0)
+			errors.rejectValue("name", "product", "Tên sản phẩm không được bỏ trống!");
+		if(product.getPrice() == null)
+			errors.rejectValue("price", "product", "Giá không được bỏ trống!");
+		if(product.getPrice() != null && product.getPrice() < 0)
+			errors.rejectValue("price", "product", "Giá không âm!");
+		if(product.getQuantity() == null)
+			errors.rejectValue("quantity", "product", "Số lượng không được bỏ trống!");
+		if(product.getQuantity() != null && product.getQuantity() < 0)
+			errors.rejectValue("quantity", "product", "Số lượng không âm!");
+		if(errors.hasErrors()) {
+			return "admin/update-product";
+		}
+			
 		Session ss = factory.openSession();
 		Transaction t = ss.beginTransaction();
 		try {
@@ -98,17 +131,25 @@ public class ProductController {
 				photo.transferTo(new File(path));
 				product.setPhoto(photo.getOriginalFilename());
 			} catch (Exception e) {
-				model.addAttribute("failFile", "Lỗi upload file ảnh!");
+				model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+						+ "					  Lỗi upload file ảnh!\r\n"
+						+ "					</div>");
+				return "admin/update-product";
 			}
-			product.setCreated(new Date());
+			product.setCreated(p.getCreated());
 			ss.update(product);
 			t.commit();
-			model.addAttribute("msg", "Cập nhật thành công!");
+			model.addAttribute("msg", "<div class=\"alert alert-success\" role=\"alert\">\r\n"
+					+ "					  Cập nhật thành công!\r\n"
+					+ "					</div>");
 		} catch (Exception e) {
 			t.rollback();
-			model.addAttribute("msg", "Cập nhật thất bại!");
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Cập nhật thất bại!\r\n"
+					+ "					</div>");
+			return "admin/update-product";
 		}
-		
+		p = null;
 		return "redirect:/admin/product/list.htm";
 	}
 	
@@ -121,7 +162,6 @@ public class ProductController {
 		query.setParameter("id", id);
 		Product product = (Product) query.uniqueResult();
 		model.addAttribute("product", product);
-		model.addAttribute("listCate", listCate());
 		return "admin/delete-product";
 	}
 	
@@ -133,10 +173,15 @@ public class ProductController {
 			
 			ss.delete(product);
 			t.commit();
-			model.addAttribute("msg", "Xóa thành công!");
+			model.addAttribute("msg", "<div class=\"alert alert-success\" role=\"alert\">\r\n"
+					+ "					  Xóa thành công!\r\n"
+					+ "					</div>");
 		} catch (Exception e) {
 			t.rollback();
-			model.addAttribute("msg", "Xóa thất bại!");
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Xóa thất bại!\r\n"
+					+ "					</div>");
+			return "admin/delete-product";
 		}
 		
 		return "redirect:/admin/product/list.htm";
@@ -171,6 +216,7 @@ public class ProductController {
 		return true;
 	}
 	
+	@ModelAttribute("lstCate")
 	public List<Category> listCate(){
 		Session ss = factory.getCurrentSession();
 		String hql = "FROM Category";

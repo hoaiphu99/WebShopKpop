@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -15,6 +16,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import admin.controller.UserController;
+import client.controller.ProfileController;
 import shop.bean.Cart;
+import shop.bean.EmailAccount;
 import shop.entity.BannerDiscount;
 import shop.entity.Feature;
 import shop.entity.HotTrend;
@@ -40,11 +45,30 @@ public class HomeController {
 	HashMap<Integer, Cart> cart = new HashMap<Integer, Cart>();
 	@Autowired
 	SessionFactory factory;
+	@Autowired
+	JavaMailSender mailer;
+	@Autowired
+	EmailAccount account;
 	
 	@RequestMapping("index")
 	public String homePage(HttpSession session) {
 		session.setAttribute("menu", menu());
 		return "client/index";
+	}
+	
+	@RequestMapping("about")
+	public String about() {
+		return "client/about";
+	}
+	
+	@RequestMapping("contact")
+	public String contact() {
+		return "client/contact";
+	}
+	
+	@RequestMapping("faq")
+	public String faq() {
+		return "client/faq";
 	}
 	
 	@RequestMapping(value="login", method = RequestMethod.GET)
@@ -62,34 +86,27 @@ public class HomeController {
 		if(errors.hasErrors())
 			return "client/login";
 		
-		Session ss = factory.getCurrentSession();
-		String hql = "FROM User";
-		Query query = ss.createQuery(hql);
-		List<User> lstAcc = query.list();
-		
-		for (User i : lstAcc) {
-			if(user.getUsername().equals(i.getUsername()) && user.getPassword().equals(i.getPassword())) {
-				this.mUser = i;
+		User u = findUser(user.getUsername());
+		if(u!= null) {
+			if(user.getUsername().equals(u.getUsername()) && user.getPassword().equals(u.getPassword())) {
+				this.mUser = u;
+				session.setAttribute("mUser", this.mUser);
+				session.setAttribute("cart", this.cart);
+				session.setAttribute("totalQuantityCart", 0);
+				session.setAttribute("totalPriceCart", 0);
+				
 				if(this.mUser.getUserRole().equals("admin")) {
-					session.setAttribute("mUser", this.mUser);
-					session.setAttribute("cart", this.cart);
-					session.setAttribute("totalQuantityCart", 0);
-					session.setAttribute("totalPriceCart", 0);
-					
 					return "redirect:/admin/index.htm";
 				}
 				else {
-					session.setAttribute("mUser", this.mUser);
-					session.setAttribute("cart", this.cart);
-					session.setAttribute("totalQuantityCart", 0);
-					session.setAttribute("totalPriceCart", 0);
-					
 					return "redirect:/index.htm";
 				} 
 				
 			}
 		}
-		model.addAttribute("msg", "Sai thông tin đăng nhập");
+		model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+				+ "					  Tên đăng nhập hoặc mật khẩu không đúng!\r\n"
+				+ "					</div>");
 		return "client/login";
 	}
 	
@@ -111,26 +128,53 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="signin", method = RequestMethod.POST)
-	public String register(ModelMap model, @ModelAttribute("user") User user, @RequestParam("confirm_password") String confirm_password) {
-		if(!user.getPassword().equals(confirm_password)) {
-			model.addAttribute("failAdd", "Mật khẩu không trùng khớp!");
-			model.addAttribute("user", new User());
-			model.addAttribute("lstUserRole", listUserRole());
-			model.addAttribute("gender", getGender());
+	public String register(ModelMap model, @ModelAttribute("user") User user, @RequestParam("confirm_password") String confirm_password, BindingResult errors) {
+		if(user.getName().trim().length() == 0)
+			errors.rejectValue("name", "user", "Họ tên không được bỏ trống!");
+		if(user.getUsername().trim().length() == 0)
+			errors.rejectValue("username", "user", "Tên đăng nhập không được bỏ trống!");
+		if(user.getPassword().trim().length() == 0)
+			errors.rejectValue("password", "user", "Mật khẩu không được bỏ trống!");
+		if(user.getAddress().trim().length() == 0)
+			errors.rejectValue("address", "user", "Địa chỉ không được bỏ trống!");
+		if(user.getPhone().trim().length() == 0)
+			errors.rejectValue("phone", "user", "Số điện thoại không được bỏ trống!");
+		if(user.getEmail().trim().length() == 0)
+			errors.rejectValue("email", "user", "Email không được bỏ trống!");
+		if(errors.hasErrors()) {
 			return "client/register";
 		}
-		if(!create(user)) {
-			model.addAttribute("failAdd", "Tạo thất bại!");
-			model.addAttribute("user", new User());
-			model.addAttribute("lstUserRole", listUserRole());
-			model.addAttribute("gender", getGender());
+			
+		// kiểm tra username trùng
+		User u = findUser(user.getUsername());
+		if(u != null) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Tên đăng nhập đã bị trùng!\r\n"
+					+ "					</div>");
 			return "client/register";
 		}
 		
-		model.addAttribute("successAdd", "Tạo thành công.");
-		model.addAttribute("user", new User());
-		model.addAttribute("lstUserRole", listUserRole());
-		model.addAttribute("gender", getGender());
+		User u1 = findUserByEmail(user.getEmail());
+		// kiểm tra email trùng
+		if(u1 != null && user.getEmail().equals(u1.getEmail())) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Email đã bị trùng!\r\n"
+					+ "					</div>");
+			return "admin/add-user";
+		}
+		
+		if(!user.getPassword().equals(confirm_password)) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Mật khẩu không trùng khớp!\r\n"
+					+ "					</div>");
+			return "client/register";
+		}
+		if(!create(user)) {
+			model.addAttribute("msg", "Tạo thất bại!");
+			return "client/register";
+		}
+		
+		model.addAttribute("msg", "Tạo thành công. Hãy đăng nhập vào trang web");
 		return "client/register";
 	}
 	
@@ -179,12 +223,13 @@ public class HomeController {
 		return "client/category";
 	}
 	
-	@RequestMapping(value="{category}/{proName}", method=RequestMethod.GET)
+	@RequestMapping(value="{category}/{id}", method=RequestMethod.GET)
 	public String productDetails(ModelMap model, @PathVariable("category") String category, 
-									@PathVariable("proName") Integer proName) {
-		Session ss = factory.getCurrentSession();
-		Product product = (Product) ss.get(Product.class, proName);
+									@PathVariable("id") Integer id) {
+		
+		Product product = getProduct(id);
 		model.addAttribute("product", product);
+		model.addAttribute("relatedProd", relatedProduct(category));
 		return "client/product-details";
 	}
 	
@@ -198,20 +243,6 @@ public class HomeController {
 		Query query = ss.createQuery(hql);
 		query.setMaxResults(8);
 		List<Product> array = query.list();
-		return array;
-	}
-	
-	public List<String> listUserRole(){
-		List<String> array = new ArrayList<>();
-		array.add("admin");
-		array.add("user");
-		return array;
-	}
-	
-	public List<String> getGender() {
-		List<String> array = new ArrayList<>();
-		array.add("true");
-		array.add("false");
 		return array;
 	}
 	
@@ -245,6 +276,26 @@ public class HomeController {
 		return menu;
 	}
 	
+	public List<Product> relatedProduct(String cateName){
+		Session ss = factory.getCurrentSession();
+		String hql = "FROM Product WHERE category.Name = :cateName";
+		Query query = ss.createQuery(hql);
+		query.setParameter("cateName", cateName);
+		query.setFirstResult(0);
+		query.setMaxResults(4);
+		List<Product> lst = query.list();
+		return lst;
+	}
+	
+	public Product getProduct(int id){
+		Session ss = factory.getCurrentSession();
+		String hql = "FROM Product WHERE Id = :id";
+		Query query = ss.createQuery(hql);
+		query.setParameter("id", id);
+		Product p = (Product) query.uniqueResult();
+		return p;
+	}
+	
 	@ModelAttribute("lstHot")
 	public List<HotTrend> getProHotTrend(){
 		Session ss = factory.getCurrentSession();
@@ -275,7 +326,15 @@ public class HomeController {
 		query.setFirstResult(0);
 		query.setMaxResults(1);
 		List<BannerDiscount> list = query.list();
-		
+		if(list.isEmpty()) {
+			list.add(new BannerDiscount());
+			list.get(0).setBigTitle("Tạm thời không có khuyến mãi");
+			list.get(0).setSmallTitle(" ");
+			list.get(0).setDiscount(0);
+			list.get(0).setDay(00);
+			list.get(0).setMonth(00);
+			list.get(0).setYear(00);
+		}
 		return list;
 	}
 	
@@ -313,6 +372,22 @@ public class HomeController {
 	    return list; 
     }
   
+	public User findUser(String username) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM User u WHERE u.Username = '" + username + "'";
+		Query query = session.createQuery(hql);
+		User u = (User)query.uniqueResult();
+		
+		return u;
+	}
 	 
-	 
+	public User findUserByEmail(String email) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM User Where Email = :email";
+		Query query = session.createQuery(hql);
+		query.setParameter("email", email);
+		User u = (User) query.uniqueResult();
+		
+		return u;
+	}
 }

@@ -2,11 +2,15 @@ package admin.controller;
 
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import shop.bean.EmailAccount;
 import shop.entity.Order;
 import shop.entity.OrderDetail;
 import shop.entity.Product;
@@ -26,6 +31,10 @@ public class OrderController {
 	
 	@Autowired
 	SessionFactory factory;
+	@Autowired
+	JavaMailSender mailer;
+	@Autowired
+	EmailAccount account;
 	
 	@RequestMapping("tat-ca-don-hang")
 	public String list(ModelMap model) {
@@ -50,6 +59,8 @@ public class OrderController {
 		Status stt = getStatus(2);
 		Session ss = factory.openSession();
 		Transaction t = ss.beginTransaction();
+		
+		String text = "Đơn hàng của bạn đã được xác nhận<br> Chi tiết đơn hàng<br><br>";
 		try {
 			order.setStatus(stt);
 			ss.update(order);
@@ -60,6 +71,28 @@ public class OrderController {
 		}
 		finally {
 			ss.close();
+		}
+		try {
+			// Tạo mail
+			MimeMessage mail = mailer.createMimeMessage();
+			// Sử dụng lớp trợ giúp
+			MimeMessageHelper helper = new MimeMessageHelper(mail);
+			helper.setFrom(account.getUsername(), account.getUsername());
+			helper.setTo(order.getUser().getEmail());
+			helper.setReplyTo(account.getUsername(), account.getUsername());
+			helper.setSubject("Đã xác nhận đơn hàng #" + order.getId());
+			
+			int i = 0;
+			for (OrderDetail o : order.getOrderdetails()) {
+				i++;
+				text += i + ". " + o.getProduct().getName() + "<br>Số lượng: " + o.getQuantity() + "<br>Tổng cộng: " + o.getUnitPrice() + " VNĐ<br>";
+			}
+			helper.setText(text, true);
+			// Gửi mail
+			mailer.send(mail);
+		}
+		catch(Exception ex) {
+			System.out.println("Không gửi đc mail " + ex.getMessage());
 		}
 		return "redirect:/admin/order/tat-ca-don-hang.htm";
 	}

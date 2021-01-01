@@ -20,6 +20,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -144,12 +145,35 @@ public class ProfileController {
 	
 	@RequestMapping(value="quen-mat-khau", method = RequestMethod.POST)
 	public String forgotPassword(ModelMap model, @RequestParam("username") String username, @RequestParam("email")String email) {
-		
-		User u = findUser(username);
-		String newPW = createNewPW(8);
-		if(!email.equals(u.getEmail())) {
+		if(username.trim().length() == 0) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Tên đăng nhập không được bỏ trống!\r\n"
+					+ "					</div>");
 			return "client/forgot-password";
 		}
+			
+		if(email.trim().length() == 0) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Mật khẩu không được bỏ trống!\r\n"
+					+ "					</div>");
+			return "client/forgot-password";
+		}
+			
+		User u = findUser(username);
+		if(u == null) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Tên đăng nhập không đúng!\r\n"
+					+ "					</div>");
+			return "client/forgot-password";
+		}
+		if(!email.equals(u.getEmail())) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Email không đúng!\r\n"
+					+ "					</div>");
+			return "client/forgot-password";
+		}
+		// tạo mật khẩu ngẫu nhiên mới
+		String newPW = createNewPW(8);
 		try {
 			// Tạo mail
 			MimeMessage mail = mailer.createMimeMessage();
@@ -186,13 +210,7 @@ public class ProfileController {
 	}
 	
 	public String createNewPW(int len) {
-//		int leftLimit = 48; // numeral '0'
-//	    int rightLimit = 122; // letter 'z'
-//	    int targetStringLength = 10;
-//	    Random random = new Random();
-//	    
-//	    String generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-	    
+
 		String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		SecureRandom rnd = new SecureRandom();
 		StringBuilder sb = new StringBuilder(len);
@@ -212,15 +230,6 @@ public class ProfileController {
 		} catch (Exception e) {
 			t.rollback();
 		}
-	}
-	
-	@ModelAttribute("gender")
-	public String[] getGender() {
-		String[] gender = {
-				"true",
-				"false"
-		};
-		return gender;
 	}
 	
 }

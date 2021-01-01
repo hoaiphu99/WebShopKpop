@@ -56,30 +56,16 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
-                            <div>
-							<p style="text-align: center; color: red">
-								<b>${failFile}</b>
-							</p>
-
-							<p style="text-align: center; color: red">
-								<b>${failAdd}</b>
-							</p>
-							<p style="text-align: center; color: red">
-								<b>${msgEmpty}</b>
-							</p>
-
-							<p style="text-align: center; color: red">
-								<b>${successAdd}</b>
-							</p>
-						</div>
+                            	${msg }
                                 <form:form action="admin/product/add.htm" method="POST" modelAttribute="product" enctype="multipart/form-data">
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="name" class="badge badge-danger"/></div>
                                         <label>Tên sản phẩm</label>
                                         <form:input path="name" type="text" class="form-control"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Loại sản phẩm</label>
-                                        <form:select class="form-control" path="category.id" items="${listCate}" itemLabel="name" itemValue="id" >
+                                        <form:select class="form-control" path="category.id" items="${lstCate}" itemLabel="name" itemValue="id" >
                                             
                                         </form:select>
                                     </div>
@@ -89,6 +75,7 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
+                                        	<div class="col-form-label"><form:errors path="price" class="badge badge-danger"/></div>
                                             <label for="">Giá sản phẩm</label>
                                             <form:input type="text" path="price" class="form-control" placeholder=""/>
                                         </div>
@@ -101,12 +88,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="quantity" class="badge badge-danger"/></div>
                                         <label for="">Số lượng</label>
                                         <form:input type="text" path="quantity" class="form-control" placeholder=""/>
                                     </div>
                                     <div class="form-group">
                                          <div class="btn btn-default btn-file">
-											<i class="fa fa-paperclip"> </i> Image <input type="file"
+											<i class="fa fa-paperclip"> </i> Hình ảnh <input type="file"
 												name="attachment">
 										</div>
                                     </div>

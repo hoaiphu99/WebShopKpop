@@ -242,19 +242,19 @@
                     </div>
                     <div class="discount__countdown" id="countdown-time">
                         <div class="countdown__item">
-                            <span>${lstBanner[0].day }</span>
+                            <span id="day">${lstBanner[0].day }</span>
                             <p>Ngày</p>
                         </div>
                         <div class="countdown__item">
-                            <span>12</span>
+                            <span id="month">${lstBanner[0].month }</span>
                             <p>Giờ</p>
                         </div>
                         <div class="countdown__item">
-                            <span>60</span>
+                            <span id="year">${lstBanner[0].year }</span>
                             <p>Phút</p>
                         </div>
                         <div class="countdown__item">
-                            <span>60</span>
+                            <span>00</span>
                             <p>Giây</p>
                         </div>
                     </div>
@@ -375,9 +375,9 @@
 </div>
 <!-- Search End -->
 <script>
-$("div").click(function(){
-	   window.location=$(this).find("a").attr("href"); return false;
-	});
+	$("div").click(function(){
+		   window.location=$(this).find("a").attr("href"); return false;
+		});
 </script>
 <!-- Js Plugins -->
 <jsp:include page="js.jsp"></jsp:include>

@@ -120,12 +120,13 @@ public class CartController {
 		if(product != null && cart.containsKey(id)) {
 			itemCart = cart.get(id);
 			itemCart.setQuantity(itemCart.getQuantity() + quantity);
-			itemCart.setTotalPrice(itemCart.getQuantity() * itemCart.getProduct().getPrice());
+			double totalPrice = itemCart.getQuantity() * itemCart.getProduct().getPrice();
+			itemCart.setTotalPrice(totalPrice);
 		}
 		else {
 			itemCart.setProduct(product);
 			itemCart.setQuantity(quantity);
-			itemCart.setTotalPrice(product.getPrice());
+			itemCart.setTotalPrice(quantity * product.getPrice());
 		}
 		cart.put(id, itemCart);
 		return cart;

@@ -10,7 +10,7 @@
                     <div class="footer__logo">
                         <a href="./index.html"><img src="resources/client/img/logo.png" alt=""></a>
                     </div>
-                    <p>Shop chuyên bán đồ Kpop.</p>
+                    <p>Shop chuyên bán đồ Kpop nhập khẩu từ Hàn Quốc về.</p>
                     <div class="footer__payment">
                         <a href="#"><img src="resources/client/img/payment/payment-1.png" alt=""></a>
                         <a href="#"><img src="resources/client/img/payment/payment-2.png" alt=""></a>
@@ -24,9 +24,9 @@
                 <div class="footer__widget">
                     <h6>Liên kết nhanh</h6>
                     <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Liên hệ</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="about.htm">About</a></li>
+                        <li><a href="contact.htm">Liên hệ</a></li>
+                        <li><a href="faq.htm">FAQ</a></li>
                     </ul>
                 </div>
             </div>

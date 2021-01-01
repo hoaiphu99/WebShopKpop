@@ -93,8 +93,16 @@
                                         <form:input path="link" type="text" class="form-control"/>
                                     </div>
                                     <div class="form-group">
-                                        <label>Số ngày</label>
+                                        <label>Ngày hết banner</label>
                                         <form:input path="day" type="number" class="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tháng hết banner</label>
+                                        <form:input path="month" type="number" class="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Năm hết banner</label>
+                                        <form:input path="year" type="number" class="form-control"/>
                                     </div>
                                     <div class="form-group">
                                          <div class="btn btn-default btn-file">

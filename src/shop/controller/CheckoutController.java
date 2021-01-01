@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -15,6 +16,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import shop.bean.Cart;
+import shop.bean.EmailAccount;
 import shop.entity.Order;
 import shop.entity.OrderDetail;
 import shop.entity.Status;
@@ -93,6 +97,7 @@ public class CheckoutController {
 				
 			}
 		}
+		
 		ss.setAttribute("cart", this.cart);
 		ss.setAttribute("totalQuantityCart", 0);
 		ss.setAttribute("totalPriceCart", 0);

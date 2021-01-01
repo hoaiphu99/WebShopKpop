@@ -47,18 +47,22 @@
                 <div class="row">
                 <div class="col-lg-2"></div>
                     <div class="col-lg-8">
+                    	${msg }
                         <h5>Đăng ký</h5>
                         <div class="row">
                             <div class="col-lg-12">
                             	<div class="checkout__form__input">
+                            		<div class="col-form-label"><form:errors path="name" class="badge badge-danger"/></div>
                                     <p>Họ và tên <span>*</span></p>
                                     <form:input path="name" type="text"/>
                                 </div>
                                 <div class="checkout__form__input">
+                                	<div class="col-form-label"><form:errors path="username" class="badge badge-danger"/></div>
                                     <p>Tên đăng nhập <span>*</span></p>
                                     <form:input path="username" type="text"/>
                                 </div>
                                 <div class="checkout__form__input">
+                                	<div class="col-form-label"><form:errors path="password" class="badge badge-danger"/></div>
                                     <p>Mật khẩu <span>*</span></p>
                                     <form:input path="password" type="password"/>
                                 </div>
@@ -66,38 +70,39 @@
                                     <p>Nhập lại mật khẩu <span>*</span></p>
                                     <input type="password" name="confirm_password"></input>
                                 </div>
-                                <div class="checkout__form__input">
                                     <div class="form-group">
-									    <label >Giới tính</label>
+									    <div class="checkout__form__input"><p>Giới tính <span>*</span></p></div>
 									    <div class="col-sm-6">
-									    	<form:select path="gender" items="${gender }" class="form-control"/>
-										    <%-- <div class="form-check form-check-inline">
-												<form:radiobutton path="gender" value="true" class="form-check-input"/>
-												<label for="gender" class="form-check-label">Nam</label>
+									    	<%-- <form:select path="gender" items="${gender }" class="form-control"/> --%>
+										    <div class="form-check">
+												<form:radiobutton path="gender" value="true" class="form-check-input" checked="true"/>
+												<label for="gender1" class="form-check-label">Nam</label>
 											</div>
-										    <div class="form-check form-check-inline">
+										    <div class="form-check">
 												<form:radiobutton path="gender" value="false" class="form-check-input"/>
-												<label for="gender" class="form-check-label">Nữ</label>
-											</div> --%>
-					  					</div>	
+												<label for="gender2" class="form-check-label">Nữ</label>
+											</div>
 								    </div>
-                                </div>
                                 <div class="checkout__form__input">
+                                	<div class="col-form-label"><form:errors path="address" class="badge badge-danger"/></div>
                                     <p>Địa chỉ <span>*</span></p>
                                     <form:input path="address" type="textarea"/>
                                 </div>
                                 <div class="checkout__form__input">
+                                	<div class="col-form-label"><form:errors path="phone" class="badge badge-danger"/></div>
                                     <p>Số điện thoại <span>*</span></p>
                                     <form:input path="phone" type="number"/>
                                 </div>
                                 <div class="checkout__form__input">
-                                    <p>Email</p>
+                                	<div class="col-form-label"><form:errors path="email" class="badge badge-danger"/></div>
+                                    <p>Email<span>*</span></p>
                                     <form:input path="email" type="email"/>
                                 </div>
                             </div>
                         </div>
                     	<button type="submit" class="site-btn loginout">Đăng ký</button>
                     </div>
+                </div>
                 </div>
             </form:form>
         </div>

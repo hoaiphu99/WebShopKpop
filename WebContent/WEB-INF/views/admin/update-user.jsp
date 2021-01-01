@@ -56,32 +56,19 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
-                            <div>
-							<p style="text-align: center; color: red">
-								<b>${failFile}</b>
-							</p>
-
-							<p style="text-align: center; color: red">
-								<b>${failAdd}</b>
-							</p>
-							<p style="text-align: center; color: red">
-								<b>${msgEmpty}</b>
-							</p>
-
-							<p style="text-align: center; color: red">
-								<b>${successAdd}</b>
-							</p>
-						</div>
+                            	${msg }
                                 <form:form action="admin/user/update.htm" method="POST" modelAttribute="user">
                                     <div class="form-group">
                                         <label>ID</label>
                                         <form:input path="id" type="text" class="form-control" readonly="true"/>
                                     </div>
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="username" class="badge badge-danger"/></div>
                                         <label>Tên đăng nhập</label>
-                                        <form:input path="username" type="text" class="form-control"/>
+                                        <form:input path="username" type="text" class="form-control" readonly="true"/>
                                     </div>
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="password" class="badge badge-danger"/></div>
                                         <label for="">Mật khẩu</label>
                                         <form:input path="password" type="password" class="form-control"/>
                                     </div>
@@ -90,6 +77,7 @@
                                         <input type="password" name="confirm_password" class="form-control"></input>
                                     </div>
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="name" class="badge badge-danger"/></div>
                                         <label for="">Họ tên</label>
                                         <form:input path="name" type="text" class="form-control"/>
                                     </div>
@@ -97,7 +85,7 @@
 									    <label >Giới tính</label>
 									    <div class="col-sm-6">
 										    <div class="form-check form-check-inline">
-												<form:radiobutton path="gender" value="true" class="form-check-input"/>
+												<form:radiobutton path="gender" value="true" class="form-check-input" checked="true"/>
 												<label for="gender" class="form-check-label">Nam</label>
 											</div>
 										    <div class="form-check form-check-inline">
@@ -108,14 +96,17 @@
 					  					</div>	
 								    </div>
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="email" class="badge badge-danger"/></div>
                                         <label for="">Email</label>
                                         <form:input path="email" type="email" class="form-control"/>
                                     </div>
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="phone" class="badge badge-danger"/></div>
                                         <label for="">Số điện thoại</label>
                                         <form:input path="phone" type="number" class="form-control"/>
                                     </div>
                                     <div class="form-group">
+                                    	<div class="col-form-label"><form:errors path="address" class="badge badge-danger"/></div>
                                         <label for="">Địa chỉ</label>
                                         <form:input path="address" type="textarea" class="form-control"/>
                                     </div>

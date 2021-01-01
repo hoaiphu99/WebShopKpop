@@ -12,7 +12,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Đăng nhập</title>
+    <title>FAQ</title>
     <base href="${pageContext.servletContext.contextPath}/">
 
     <!-- Google Font -->
@@ -37,37 +37,9 @@
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
-            <div class="row">
-            	<div class="col-lg-2"></div>
-                <div class="col-lg-8">
-                    <h6 class="coupon__link"> Chưa có tài khoản? <a href="signin.htm" style="color: red;">Đăng ký ngay</a></h6>
-                </div>
-            </div>
-            <form:form action="login.htm" modelAttribute="user" class="checkout__form">
-                <div class="row">
-                	<div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                    	${msg }
-                        <h5 class="text-center">Đăng nhập</h5>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="checkout__form__input">
-                                	<div class="col-form-label"><form:errors path="username" class="badge badge-danger"/></div>
-                                    <p>Tên đăng nhập <span>*</span></p>
-                                    <form:input path="username" type="text"/>
-                                </div>
-                                <div class="checkout__form__input">
-                                	<div class="col-form-label"><form:errors path="password" class="badge badge-danger"/></div>
-                                    <p>Mật khẩu <span>*</span></p>
-                                    <form:input path="password" type="password"/>
-                                </div>
-                            </div>
-                            <a href="quen-mat-khau.htm" class="forgotPW">Quên mật khẩu?</a>
-                        </div>
-                    	<button type="submit" class="site-btn loginout">Đăng nhập</button>
-                    </div>
-                </div>
-            </form:form>
+        	<h5>FAQ</h5>
+        	<hr>
+            <h4>Đang cập nhật...</h4>
         </div>
     </section>
         <!-- Checkout Section End -->

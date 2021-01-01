@@ -48,7 +48,7 @@
                 	<div class="col-lg-2"></div>
                     <div class="col-lg-8">
                     	${msg }
-                        <h5 class="text-center">Đăng nhập</h5>
+                        <h5 class="text-center">Lấy lại mật khẩu</h5>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
@@ -56,7 +56,7 @@
                                     <input type="text" name="username">
                                 </div>
                                 <div class="checkout__form__input">
-                                    <p>Email khôi phục <span>*</span></p>
+                                    <p>Email <span>*</span></p>
                                     <input type="email" name="email">
                                 </div>
                             </div>

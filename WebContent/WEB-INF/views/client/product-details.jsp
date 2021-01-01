@@ -81,10 +81,10 @@
                                 </div>
                             </div>
                             <button class="cart-btn" data-id="${product.id }"><span class="icon_bag_alt"></span> Thêm vào giỏ hàng</button>
-                            <ul>
+                            <!-- <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                            </ul>
+                            </ul> -->
                         </div>
                         <div class="product__details__widget">
                             <ul>
@@ -150,96 +150,27 @@
                         <h5>Sản phẩm liên quan</h5>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/related/rp-1.jpg">
-                            <div class="label new">New</div>
-                            <ul class="product__hover">
-                                <li><a href="resources/client/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Buttons tweed blazer</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/related/rp-2.jpg">
-                            <ul class="product__hover">
-                                <li><a href="resources/client/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Flowy striped skirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 49.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/related/rp-3.jpg">
-                            <div class="label stockout">out of stock</div>
-                            <ul class="product__hover">
-                                <li><a href="resources/client/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Cotton T-Shirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/related/rp-4.jpg">
-                            <ul class="product__hover">
-                                <li><a href="resources/client/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Slim striped pocket shirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
+                <c:forEach var="i" items="${relatedProd }">
+		        	<div class="col-lg-3 col-md-4 col-sm-6 mix ${i.category.name }">
+		                <div class="product__item">
+		                    <div class="product__item__pic set-bg" data-setbg="resources/client/img/product/${i.photo }" onclick="location.href='${i.category.name }/${i.id}.htm'">
+		                        <c:choose>
+		                        	<c:when test="${i.quantity == 0 }"><div class="label stockout">Hết hàng</div></c:when>
+		                        	<c:when test="${i.discount > 0}"><div class="label sale">Sale <fmt:formatNumber value="${i.discount }" type="percent"/></div></c:when>
+		                        </c:choose>
+		                        <ul class="product__hover">
+		                            <li><a href="resources/client/img/product/${i.photo }" class="image-popup"><span class="arrow_expand"></span></a></li>
+		                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+		                            <li><a href="add-cart/${i.id }.htm"><span class="icon_bag_alt"></span></a></li>
+		                        </ul>
+		                    </div>
+		                    <div class="product__item__text">
+		                        <h6><a href="${i.category.name }/${i.id}.htm">${i.name }</a></h6>
+		                        <div class="product__price"><fmt:formatNumber value = "${i.price - i.price*i.discount}" type = "number" maxFractionDigits = "0"/> VNĐ <c:if test="${i.discount != 0 }"><span><fmt:formatNumber value = "${i.price}" type = "number" maxFractionDigits = "0"/> VNĐ</span></c:if></div>
+		                    </div>
+		                </div>
+		            </div>
+		        </c:forEach>
             </div>
         </div>
     </section>
@@ -326,6 +257,7 @@
             window.location = "add-cart/" + id + "/" + quantity + ".htm";
         });
     </script>
+    
 </body>
 
 </html>

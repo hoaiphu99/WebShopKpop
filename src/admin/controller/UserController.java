@@ -34,6 +34,7 @@ public class UserController {
 	
 	@Autowired
 	SessionFactory factory;
+	User u;
 	
 	@RequestMapping("list")
 	public String list(ModelMap model) {
@@ -49,28 +50,61 @@ public class UserController {
 	@RequestMapping(value="add", method=RequestMethod.GET)
 	public String add(ModelMap model) {
 		model.addAttribute("user", new User());
-		model.addAttribute("lstUserRole", listUserRole());
 		return "admin/add-user";
 	}
 	
 	@RequestMapping(value="add", method=RequestMethod.POST)
-	public String add(ModelMap model, @ModelAttribute("user") User user, @RequestParam("confirm_password") String confirm_password) {
-		if(!user.getPassword().equals(confirm_password)) {
-			model.addAttribute("failAdd", "Mật khẩu không trùng khớp!");
-			model.addAttribute("user", new User());
-			model.addAttribute("lstUserRole", listUserRole());
+	public String add(ModelMap model, @ModelAttribute("user") User user, @RequestParam("confirm_password") String confirm_password, BindingResult errors) {
+		if(user.getName().trim().length() == 0)
+			errors.rejectValue("name", "user", "Họ tên không được bỏ trống!");
+		if(user.getUsername().trim().length() == 0)
+			errors.rejectValue("username", "user", "Tên đăng nhập không được bỏ trống!");
+		if(user.getPassword().trim().length() == 0)
+			errors.rejectValue("password", "user", "Mật khẩu không được bỏ trống!");
+		if(user.getAddress().trim().length() == 0)
+			errors.rejectValue("address", "user", "Địa chỉ không được bỏ trống!");
+		if(user.getPhone().trim().length() == 0)
+			errors.rejectValue("phone", "user", "Số điện thoại không được bỏ trống!");
+		if(user.getEmail().trim().length() == 0)
+			errors.rejectValue("email", "user", "Email không được bỏ trống!");
+		if(errors.hasErrors()) {
 			return "admin/add-user";
 		}
-		if(!create(user)) {
-			model.addAttribute("failAdd", "Tạo thất bại!");
-			model.addAttribute("user", new User());
-			model.addAttribute("lstUserRole", listUserRole());
+			
+		User u = findUser(user.getUsername());
+		User u1 = findUserByEmail(user.getEmail());
+		// kiểm tra email trùng
+		if(u1 != null && user.getEmail().equals(u1.getEmail())) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Email đã bị trùng!\r\n"
+					+ "					</div>");
 			return "admin/add-user";
 		}
 		
-		model.addAttribute("successAdd", "Tạo thành công.");
-		model.addAttribute("user", new User());
-		model.addAttribute("lstUserRole", listUserRole());
+		// kiểm tra username trùng
+		if(u != null) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Tên đăng nhập đã bị trùng!\r\n"
+					+ "					</div>");
+			return "admin/add-user";
+		}
+		
+		if(!user.getPassword().equals(confirm_password)) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Mật khẩu không trùng khớp!\r\n"
+					+ "					</div>");
+			return "admin/add-user";
+		}
+		if(!create(user)) {
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Tạo thất bại!\r\n"
+					+ "					</div>");
+			return "admin/add-user";
+		}
+		
+		model.addAttribute("msg", "<div class=\"alert alert-success\" role=\"alert\">\r\n"
+				+ "					  Tạo thành công!\r\n"
+				+ "					</div>");
 		return "admin/add-user";
 	}
 	
@@ -82,32 +116,54 @@ public class UserController {
 		Query query = ss.createQuery(hql);
 		query.setParameter("id", id);
 		User user = (User) query.uniqueResult();
+		u = user;
 		model.addAttribute("user", user);
-		model.addAttribute("lstUserRole", listUserRole());
 		return "admin/update-user";
 	}
 	
 	@RequestMapping(value="update", method=RequestMethod.POST)
-	public String update(ModelMap model, @ModelAttribute("user") User user, @RequestParam("confirm_password") String confirm_password) {
+	public String update(ModelMap model, @ModelAttribute("user") User user, @RequestParam("confirm_password") String confirm_password, BindingResult errors) {
+		if(user.getName().trim().length() == 0)
+			errors.rejectValue("name", "user", "Họ tên không được bỏ trống!");
+		if(user.getUsername().trim().length() == 0)
+			errors.rejectValue("username", "user", "Tên đăng nhập không được bỏ trống!");
+		if(user.getPassword().trim().length() == 0)
+			errors.rejectValue("password", "user", "Mật khẩu không được bỏ trống!");
+		if(user.getAddress().trim().length() == 0)
+			errors.rejectValue("address", "user", "Địa chỉ không được bỏ trống!");
+		if(user.getPhone().trim().length() == 0)
+			errors.rejectValue("phone", "user", "Số điện thoại không được bỏ trống!");
+		if(user.getEmail().trim().length() == 0)
+			errors.rejectValue("email", "user", "Email không được bỏ trống!");
+		if(errors.hasErrors()) {
+			return "admin/update-user";
+		}
+		
 		if(!user.getPassword().equals(confirm_password)) {
-			model.addAttribute("failAdd", "Mật khẩu không trùng khớp!");
-			model.addAttribute("user", new User());
-			model.addAttribute("lstUserRole", listUserRole());
-			return "redirect:/admin/user/update/"+ user.getId() + ".htm";
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Mật khẩu không trùng khớp!\r\n"
+					+ "					</div>");
+			return "admin/update-user";
 		}
 		
 		Session ss = factory.openSession();
 		Transaction t = ss.beginTransaction();
 		try {
-			user.setCreated(new Date());
+			user.setCreated(u.getCreated());
 			ss.update(user);
 			t.commit();
-			model.addAttribute("msg", "Sửa thành công!");
+			model.addAttribute("msg", "<div class=\"alert alert-success\" role=\"alert\">\r\n"
+					+ "					  Cập nhật thành công!\r\n"
+					+ "					</div>");
 			
 		} catch (Exception e) {
 			t.rollback();
-			model.addAttribute("msg", "Sửa thất bại!");
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Cập nhật thất bại!\r\n"
+					+ "					</div>");
+			return "admin/update-user";
 		}
+		u = null;
 		return "redirect:/admin/user/list.htm";
 	}
 	
@@ -132,11 +188,16 @@ public class UserController {
 		try {
 			ss.delete(user);
 			t.commit();
-			model.addAttribute("msg", "Xóa thành công!");
+			model.addAttribute("msg", "<div class=\"alert alert-success\" role=\"alert\">\r\n"
+					+ "					  Xóa thành công!\r\n"
+					+ "					</div>");
 			
 		} catch (Exception e) {
 			t.rollback();
-			model.addAttribute("msg", "Xóa thất bại!");
+			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+					+ "					  Xóa thất bại!\r\n"
+					+ "					</div>");
+			return "admin/delete-user";
 		}
 		return "redirect:/admin/user/list.htm";
 	}
@@ -158,6 +219,25 @@ public class UserController {
 			ss.close();
 		}
 		return true;
+	}
+	
+	public User findUser(String username) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM User u WHERE u.Username = '" + username + "'";
+		Query query = session.createQuery(hql);
+		User u = (User)query.uniqueResult();
+		
+		return u;
+	}
+	
+	public User findUserByEmail(String email) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM User Where Email = :email";
+		Query query = session.createQuery(hql);
+		query.setParameter("email", email);
+		User u = (User) query.uniqueResult();
+		
+		return u;
 	}
 	
 	@ModelAttribute("lstUserRole")

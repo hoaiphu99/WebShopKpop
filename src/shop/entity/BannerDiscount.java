@@ -26,6 +26,8 @@ public class BannerDiscount {
 	private String Image;
 	private String Link;
 	private Integer Day;
+	private Integer Month;
+	private Integer Year;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="DD/mm/yyyy")
@@ -53,6 +55,22 @@ public class BannerDiscount {
 
 	public void setDay(Integer day) {
 		Day = day;
+	}
+	
+	public Integer getMonth() {
+		return Month;
+	}
+
+	public void setMonth(Integer month) {
+		Month = month;
+	}
+
+	public Integer getYear() {
+		return Year;
+	}
+
+	public void setYear(Integer year) {
+		Year = year;
 	}
 
 	public String getSmallTitle() {
