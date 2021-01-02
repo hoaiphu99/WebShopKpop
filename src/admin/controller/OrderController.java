@@ -1,5 +1,8 @@
 package admin.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import shop.bean.Cart;
 import shop.bean.EmailAccount;
 import shop.entity.Order;
 import shop.entity.OrderDetail;
@@ -103,10 +107,19 @@ public class OrderController {
 		Status stt = getStatus(3);
 		Session ss = factory.openSession();
 		Transaction t = ss.beginTransaction();
+		
+		Collection<OrderDetail> orderDetail = order.getOrderdetails();
+		ArrayList<OrderDetail> d = new ArrayList<OrderDetail>(orderDetail);
+		int quantity = 0;
 		try {
 			order.setStatus(stt);
 			ss.update(order);
 			t.commit();
+			// cap nhat lai so luong san pham
+			for (OrderDetail i : d) {
+				quantity = i.getProduct().getQuantity() + i.getQuantity();
+				updateQuantityProd(i.getProduct().getId(), quantity);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			t.rollback();
@@ -168,5 +181,16 @@ public class OrderController {
 		List<Order> lst = query.list();
 		session.clear();
 		return lst;
+	}
+	
+	public void updateQuantityProd(int id, int quantity) {
+		Session session = factory.getCurrentSession();
+		String hql = "UPDATE Product SET Quantity = :quantity WHERE Id = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("quantity", quantity);
+		query.setParameter("id", id);
+		
+		query.executeUpdate();
+		
 	}
 }

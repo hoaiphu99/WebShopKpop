@@ -80,17 +80,23 @@ public class CheckoutController {
 		finally {
 			//session.close();
 		}
+		int quantity = 0;
 		if(o != null) {
 			for(Map.Entry<Integer, Cart> itemCart : cart.entrySet()) {
 				t = session.beginTransaction();
 				OrderDetail orderDetail = new OrderDetail();
 				try {
+					// cap nhat lai so luong san pham
+					quantity = itemCart.getValue().getProduct().getQuantity() - itemCart.getValue().getQuantity();
 					orderDetail.setOrder(o);
 					orderDetail.setProduct(itemCart.getValue().getProduct());
 					orderDetail.setQuantity(itemCart.getValue().getQuantity());
 					orderDetail.setUnitPrice(itemCart.getValue().getTotalPrice());
+					
 					session.save(orderDetail);
 					t.commit();
+					System.out.println(quantity);
+					updateQuantityProd(itemCart.getValue().getProduct().getId(), quantity);
 				} catch (Exception e) {
 					t.rollback();
 				}
@@ -121,5 +127,16 @@ public class CheckoutController {
 		query.setParameter("id", stt);
 		Order oder = (Order) query.uniqueResult();
 		return oder;
+	}
+	
+	public void updateQuantityProd(int id, int quantity) {
+		Session session = factory.getCurrentSession();
+		String hql = "UPDATE Product SET Quantity = :quantity WHERE Id = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("quantity", quantity);
+		query.setParameter("id", id);
+		
+		query.executeUpdate();
+		
 	}
 }

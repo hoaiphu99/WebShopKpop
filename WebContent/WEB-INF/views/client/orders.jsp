@@ -70,6 +70,7 @@
 	                        	<hr>
 	                		</c:forEach>
 	                		<span style="font-weight:bold; font-size: 20px;">Tổng số tiền : <f:formatNumber value="${i.totalPrice}" type="number"/> VNĐ</span>
+	                		<c:if test="${i.status.id == 1 }"><a href="huy-don-hang/${i.id }.htm" class="status">Hủy đơn hàng</a></c:if>
 	                	</div>
 	                	<hr>
                     </c:forEach>

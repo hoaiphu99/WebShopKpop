@@ -36,7 +36,10 @@ public class CartController {
 	}
 	
 	@RequestMapping(value="add-cart/{id}")
-	public String addCart(HttpSession session, HttpServletRequest request, @PathVariable("id") Integer id) {
+	public String addCart(ModelMap model, HttpSession session, HttpServletRequest request, @PathVariable("id") Integer id) {
+		if(checkQuantityProd(id, 1) == 0) {
+			return "redirect:" + request.getHeader("Referer").replaceAll("http://localhost:9999/Project-200926/", "/"); // request.getHeader("Referer") lấy back link
+		}
 		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>)session.getAttribute("cart");
 		if(cart == null) {
 			cart = new HashMap<Integer, Cart>();
@@ -50,6 +53,9 @@ public class CartController {
 	
 	@RequestMapping(value="add-cart/{id}/{quantity}")
 	public String addCartwithQuantity(HttpSession session, HttpServletRequest request, @PathVariable("id") Integer id, @PathVariable("quantity") Integer quantity) {
+		if(checkQuantityProd(id, quantity) == 0) {
+			return "redirect:" + request.getHeader("Referer").replaceAll("http://localhost:9999/Project-200926/", "/"); // request.getHeader("Referer") lấy back link
+		}
 		HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>)session.getAttribute("cart");
 		if(cart == null) {
 			cart = new HashMap<Integer, Cart>();
@@ -171,5 +177,17 @@ public class CartController {
 			totalPrice += itemCart.getValue().getTotalPrice();
 		}
 		return totalPrice;
+	}
+	
+	public int checkQuantityProd(int id, int quantity) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM Product WHERE Id = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		
+		Product p = (Product) query.uniqueResult();
+		if(p.getQuantity() < quantity)
+			return 0;
+		return 1;
 	}
 }

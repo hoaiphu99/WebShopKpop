@@ -77,15 +77,17 @@
                             <div class="quantity">
                                 <span>Số lượng:</span>
                                 <div class="pro-qty">
-                                    <input type="number" min="1" max="1000" id="quantity-cart-${product.id }" value="1">
+                                    <input type="number" min="1" max="${product.quantity }" id="quantity-cart-${product.id }" value="1">
                                 </div>
                             </div>
                             <button class="cart-btn" data-id="${product.id }"><span class="icon_bag_alt"></span> Thêm vào giỏ hàng</button>
+                            
                             <!-- <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul> -->
                         </div>
+                        <span>Còn lại </span><span id="slsp">${product.quantity }</span><span> sản phẩm</span>
                         <div class="product__details__widget">
                             <ul>
                                 <li>
@@ -254,10 +256,16 @@
     	$(".cart-btn").on("click", function(){
             var id = $(this).data("id");
             var quantity = $("#quantity-cart-" + id).val();
-            window.location = "add-cart/" + id + "/" + quantity + ".htm";
+            var sl = $("#slsp").text();
+    	    if(quantity > sl){
+    	    	alert("Không đủ số lượng sản phẩm!");
+    	    }
+    	    else{
+    	    	window.location = "add-cart/" + id + "/" + quantity + ".htm";
+                alert("Đã thêm vào giỏ hàng!");
+    	    }
         });
     </script>
-    
 </body>
 
 </html>

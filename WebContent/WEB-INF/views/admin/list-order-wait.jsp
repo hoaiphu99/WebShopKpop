@@ -65,6 +65,8 @@
                                   <th>Tổng số tiền</th>
                                   <th>Trạng thái</th>
                                   <th></th>
+                                  <th></th>
+                                  <th></th>
                               </tr>
                           </thead>
                           <tbody>
@@ -76,7 +78,8 @@
                                   <td><fmt:formatNumber value="${lst.totalPrice }" type="number"/></td>
                                   <td>${lst.status.name }</td>
                                   <td><a href="admin/order/detail/${lst.id }.htm" class="btn btn-outline-primary">Chi tiết</a></td>
-                                  
+                                  <td><a href="admin/order/accept/${lst.id }.htm" class="btn btn-outline-success">Xác nhận</a></td>
+                                  <td><a href="admin/order/cancel/${lst.id }.htm" class="btn btn-outline-danger">Hủy</a></td>
                               </tr>
                           </c:forEach>
                           </tbody>

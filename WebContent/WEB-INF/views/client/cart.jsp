@@ -62,7 +62,7 @@
                                     <td class="cart__price"><f:formatNumber value="${i.value.product.price }" type="number"/></td>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">
-                                            <input type="number" min="1" max="1000" value="${i.value.quantity }" id="quantity-cart-${i.key }" class="cart-quantity-input">
+                                            <input type="number" min="1" max="${i.value.product.quantity }" value="${i.value.quantity }" id="quantity-cart-${i.key }" class="cart-quantity-input">
                                         </div>
                                     </td>
                                     <td class="cart__total"><f:formatNumber value="${i.value.totalPrice}" type="number"/></td>
