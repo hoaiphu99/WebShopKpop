@@ -33,7 +33,7 @@ public class ClientOrderController {
 	public String orders(HttpSession session, ModelMap model) {
 		User u = (User) session.getAttribute("mUser");
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM Order o WHERE o.user.Id = :id ORDER BY o.Created DESC";
+		String hql = "FROM Order o WHERE o.user.Id = :id ORDER BY o.Id DESC";
 		Query query = ss.createQuery(hql);
 		query.setParameter("id", u.getId());
 		List<Order> lstOrder = query.list();
@@ -61,6 +61,27 @@ public class ClientOrderController {
 				quantity = i.getProduct().getQuantity() + i.getQuantity();
 				updateQuantityProd(i.getProduct().getId(), quantity);
 			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			t.rollback();
+		}
+		finally {
+			ss.close();
+		}
+		return "redirect:/xem-don-hang.htm";
+	}
+	
+	@RequestMapping(value="da-nhan/{id}")
+	public String delivered(@PathVariable("id") Integer id) {
+		Order order = getOrder(id);
+		Status stt = getStatus(4);
+		Session ss = factory.openSession();
+		Transaction t = ss.beginTransaction();
+		
+		try {
+			order.setStatus(stt);
+			ss.update(order);
+			t.commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			t.rollback();

@@ -39,7 +39,7 @@
 	        <div class="row">
 	            <div class="col-lg-2"></div>
 	                <div class="col-lg-8">
-	                    <h6 class="coupon__link">Để thay đổi địa chỉ và số điện thoại vui lòng vào <a href="#" style="color: red;">chỉnh sửa thông tin cá nhân</a></h6>
+	                    <h6 class="coupon__link">Để thay đổi địa chỉ và số điện thoại vui lòng vào <a href="chinh-sua-thong-tin.htm" style="color: red;">chỉnh sửa thông tin cá nhân</a></h6>
 	                </div>
             </div>
             <form:form action="xac-nhan-mua-hang.htm" class="checkout__form" modelAttribute="user" method="post">

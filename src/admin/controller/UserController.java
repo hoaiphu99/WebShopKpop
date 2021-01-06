@@ -39,7 +39,7 @@ public class UserController {
 	@RequestMapping("list")
 	public String list(ModelMap model) {
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM User u";
+		String hql = "FROM User u ORDER BY Id DESC";
 		Query query = ss.createQuery(hql);
 		List<Product> list = query.list();
 		model.addAttribute("lstUser", list);

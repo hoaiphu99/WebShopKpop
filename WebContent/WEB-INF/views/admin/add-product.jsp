@@ -82,7 +82,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="">Giảm giá (Nếu có)</label>
                                             <div class="input-group-prepend">
-                                                <form:input type="text" path="discount" class="form-control" placeholder=""/>
+                                                <form:input type="text" path="discount" class="form-control" placeholder="" name="discount" value="0"/>
                                                 <span class="input-group-text" id="inputGroupPrepend">%</span>
                                             </div>
                                         </div>

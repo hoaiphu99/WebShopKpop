@@ -18,3 +18,8 @@ h6.info {
     color: red;
     float: right;
 }
+
+img.imgProd {
+    width: auto;
+    height: 100px;
+}

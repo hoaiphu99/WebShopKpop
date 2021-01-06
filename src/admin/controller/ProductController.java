@@ -43,7 +43,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="add", method=RequestMethod.POST)
-	public String add(ModelMap model, @ModelAttribute("product") Product product, @RequestParam("attachment") MultipartFile photo, BindingResult errors) {
+	public String add(ModelMap model, @ModelAttribute("product") Product product, @RequestParam("attachment") MultipartFile photo, @RequestParam("discount") float discount, BindingResult errors) {
 		if(product.getName().trim().length() == 0)
 			errors.rejectValue("name", "product", "Tên sản phẩm không được bỏ trống!");
 		if(product.getPrice() == null)
@@ -76,7 +76,7 @@ public class ProductController {
 			return "admin/add-product";
 		}
 		product.setPhoto(photo.getOriginalFilename());
-		
+		product.setDiscount(discount / 100);
 		if(!create(product)) {
 			model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
 					+ "					  Tạo thất bại tên sản phẩm không được trùng!\r\n"
@@ -126,16 +126,19 @@ public class ProductController {
 			if(photo.isEmpty()) {
 				product.setPhoto(p.getPhoto());
 			}
-			try {
-				String path = context.getRealPath("/resources/client/img/product/" + photo.getOriginalFilename());
-				photo.transferTo(new File(path));
-				product.setPhoto(photo.getOriginalFilename());
-			} catch (Exception e) {
-				model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
-						+ "					  Lỗi upload file ảnh!\r\n"
-						+ "					</div>");
-				return "admin/update-product";
+			else {
+				try {
+					String path = context.getRealPath("/resources/client/img/product/" + photo.getOriginalFilename());
+					photo.transferTo(new File(path));
+					product.setPhoto(photo.getOriginalFilename());
+				} catch (Exception e) {
+					model.addAttribute("msg", "<div class=\"alert alert-danger\" role=\"alert\">\r\n"
+							+ "					  Lỗi upload file ảnh!\r\n"
+							+ "					</div>");
+					return "admin/update-product";
+				}
 			}
+			
 			product.setCreated(p.getCreated());
 			ss.update(product);
 			t.commit();
@@ -150,7 +153,7 @@ public class ProductController {
 			return "admin/update-product";
 		}
 		p = null;
-		return "redirect:/admin/product/list.htm";
+		return "admin/update-product";
 	}
 	
 	// xóa sản phẩm
@@ -190,7 +193,7 @@ public class ProductController {
 	@RequestMapping("list")
 	public String list(ModelMap model) {
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM Product p";
+		String hql = "FROM Product p ORDER BY Id DESC";
 		Query query = ss.createQuery(hql);
 		List<Product> list = query.list();
 		model.addAttribute("lstPro", list);

@@ -54,6 +54,7 @@
                     <a class="collapse-item" href="admin/order/don-hang-da-xac-nhan.htm">Đơn hàng đã xác nhận</a>
                     <a class="collapse-item" href="admin/order/don-hang-dang-xac-nhan.htm">Đơn hàng đang xác nhận</a>
                     <a class="collapse-item" href="admin/order/don-hang-da-huy.htm">Đơn hàng đã hủy</a>
+                    <a class="collapse-item" href="admin/order/don-hang-da-giao.htm">Đơn hàng đã giao</a>
                 </div>
             </div>
         </li>

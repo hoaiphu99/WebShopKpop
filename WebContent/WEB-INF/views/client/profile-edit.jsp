@@ -63,22 +63,19 @@
                                     <p>Họ và tên</p>
                                     <form:input path="name" type="text"/>
                                 </div>
-                                <div class="checkout__form__input">
                                     <div class="form-group">
-									    <label >Giới tính</label>
+									    <div class="checkout__form__input"><p>Giới tính <span>*</span></p></div>
 									    <div class="col-sm-6">
-									    	<form:select path="gender" items="${gender }" class="form-control"/>
-										    <%-- <div class="form-check form-check-inline">
-												<form:radiobutton path="gender" value="true" class="form-check-input"/>
-												<label for="gender" class="form-check-label">Nam</label>
+									    	<div class="form-check">
+												<form:radiobutton path="gender" value="true" class="form-check-input" checked="true"/>
+												<label for="gender1" class="form-check-label">Nam</label>
 											</div>
-										    <div class="form-check form-check-inline">
+										    <div class="form-check">
 												<form:radiobutton path="gender" value="false" class="form-check-input"/>
-												<label for="gender" class="form-check-label">Nữ</label>
-											</div> --%>
+												<label for="gender2" class="form-check-label">Nữ</label>
+											</div>
 					  					</div>	
 								    </div>
-                                </div>
                                 <div class="checkout__form__input">
                                     <p>Địa chỉ</p>
                                     <form:input path="address" type="textarea"/>

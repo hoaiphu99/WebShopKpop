@@ -43,7 +43,7 @@ public class OrderController {
 	@RequestMapping("tat-ca-don-hang")
 	public String list(ModelMap model) {
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM Order";
+		String hql = "FROM Order ORDER BY Id DESC";
 		Query query = ss.createQuery(hql);
 		List<Order> list = query.list();
 		model.addAttribute("lstOrder", list);
@@ -64,7 +64,7 @@ public class OrderController {
 		Session ss = factory.openSession();
 		Transaction t = ss.beginTransaction();
 		
-		String text = "Đơn hàng của bạn đã được xác nhận<br> Chi tiết đơn hàng<br><br>";
+		String text = "Đơn hàng của bạn đã được xác nhận<br>Tổng số tiền: " + order.getTotalPrice() + " VNĐ <br> Chi tiết đơn hàng<br><br>";
 		try {
 			order.setStatus(stt);
 			ss.update(order);
@@ -151,6 +151,13 @@ public class OrderController {
 		return "admin/list-order-cancel";
 	}
 	
+	@RequestMapping(value="don-hang-da-giao", method = RequestMethod.GET)
+	public String orderDelivered(ModelMap model) {
+		List<Order> lst = listOrder(4);
+		model.addAttribute("lstOrder", lst);
+		return "admin/list-order-delivered";
+	}
+	
 	/* các hàm xử lý */
 	
 	public Order getOrder(int id) {
@@ -175,7 +182,7 @@ public class OrderController {
 	
 	public List<Order> listOrder(int type) {
 		Session session = factory.getCurrentSession();
-		String hql = "FROM Order WHERE status.Id = :status";
+		String hql = "FROM Order WHERE status.Id = :status ORDER BY Id DESC";
 		Query query = session.createQuery(hql);
 		query.setParameter("status", type);
 		List<Order> lst = query.list();

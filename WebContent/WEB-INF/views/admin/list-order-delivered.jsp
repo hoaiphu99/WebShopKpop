@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Danh sách sản phẩm</title>
+    <title>Danh sách đơn hàng đã giao</title>
 	<base href="${pageContext.servletContext.contextPath}/">
     <!-- Custom fonts for this template-->
     <link href="resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -21,7 +21,6 @@
 
     <!-- Custom styles for this template-->
     <link href="resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="resources/admin/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -49,9 +48,8 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Danh sách sản phẩm</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Danh sách đơn hàng đã giao</h1>
                     </div>
-					<div><a class="btn btn-primary" href="admin/product/add.htm" role="button">Thêm mới</a></div>
 					<hr>
                     <!-- Content Row -->
                     <!-- DataTales Example -->
@@ -61,40 +59,24 @@
                       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                           <thead>
                               <tr>
-                                  <th>Tên sản phẩm</th>
-                                  <th>Giá</th>
-                                  <th>Giảm giá</th>
-                                  <th>Số lượng</th>
-                                  <th>Ngày tạo</th>
-                                  <th>Loại sản phẩm</th>
-                                  <th></th>
+                                  <th>Mã đơn hàng</th>
+                                  <th>Họ tên người đặt</th>
+                                  <th>Ngày đặt</th>
+                                  <th>Tổng số tiền</th>
+                                  <th>Trạng thái</th>
                                   <th></th>
                               </tr>
                           </thead>
-                          <!-- <tfoot>
-                              <tr>
-                                  <th>Tên sản phẩm</th>
-                                  <th>Mô tả sản phẩm</th>
-                                  <th>Giá</th>
-                                  <th>Giảm giá</th>
-                                  <th>Số lượng</th>
-                                  <th>Ngày tạo</th>
-                                  <th>Loại sản phẩm</th>
-                                  <th></th>
-                                  <th></th>
-                              </tr>
-                          </tfoot> -->
                           <tbody>
-                          <c:forEach var="lst" items="${lstPro }">
+                          <c:forEach var="lst" items="${lstOrder }">
                               <tr>
-                                  <td><img src="resources/client/img/product/${lst.photo }" class="imgProd">${lst.name }</td>
-                                  <td><fmt:formatNumber value = "${lst.price }" type = "number" maxFractionDigits = "0"/> VNĐ</td>
-                                  <td><fmt:formatNumber value="${lst.discount }" type="percent"/></td>
-                                  <td>${lst.quantity }</td>
+                                  <td>${lst.id }</td>
+                                  <td>${lst.user.name }</td>
                                   <td><fmt:formatDate value="${lst.created }" pattern="dd-MM-yyyy"/></td>
-                                  <td>${lst.category.name }</td>
-                                  <td><a href="admin/product/update/${lst.id }.htm" class="btn btn-outline-primary">Edit</a></td>
-                                  <td><a href="admin/product/delete/${lst.id }.htm" class="btn btn-outline-danger">Delete</a></td>
+                                  <td><fmt:formatNumber value="${lst.totalPrice }" type="number"/></td>
+                                  <td>${lst.status.name }</td>
+                                  <td><a href="admin/order/detail/${lst.id }.htm" class="btn btn-outline-primary">Chi tiết</a></td>
+                                  
                               </tr>
                           </c:forEach>
                           </tbody>

@@ -187,7 +187,7 @@ public class HomeController {
 		long totalPro = (long) query.uniqueResult();
 		int totalPage = (int) (totalPro / 8 + ((totalPro % 8 == 0) ? 0 : 1));
 		
-		hql = "FROM Product p WHERE p.category.Name = '" + category + "'";
+		hql = "FROM Product p WHERE p.category.Name = '" + category + "' ORDER BY p.Id DESC";
 		query = ss.createQuery(hql);
 		query.setFirstResult(0);
 		query.setMaxResults(8);
@@ -210,7 +210,7 @@ public class HomeController {
 		if(stt > totalPage)
 			return "redirect:/category/" + category +".htm";
 		
-		hql = "FROM Product p WHERE p.category.Name = '" + category + "'";
+		hql = "FROM Product p WHERE p.category.Name = '" + category + "' ORDER BY p.Id DESC";
 		query = ss.createQuery(hql);
 		query.setFirstResult((stt - 1) * 8);
 		query.setMaxResults(8);
@@ -239,7 +239,7 @@ public class HomeController {
 	@ModelAttribute("lstPro")
 	public List<Product> getPro(){
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM Product p";
+		String hql = "FROM Product p ORDER BY p.Id DESC";
 		Query query = ss.createQuery(hql);
 		query.setMaxResults(8);
 		List<Product> array = query.list();
@@ -278,7 +278,7 @@ public class HomeController {
 	
 	public List<Product> relatedProduct(String cateName){
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM Product WHERE category.Name = :cateName";
+		String hql = "FROM Product WHERE category.Name = :cateName ORDER BY Id DESC";
 		Query query = ss.createQuery(hql);
 		query.setParameter("cateName", cateName);
 		query.setFirstResult(0);
@@ -299,7 +299,7 @@ public class HomeController {
 	@ModelAttribute("lstHot")
 	public List<HotTrend> getProHotTrend(){
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM HotTrend ORDER BY Created";
+		String hql = "FROM HotTrend ORDER BY Id DESC";
 		Query query = ss.createQuery(hql);
 		query.setMaxResults(3);
 		List<HotTrend> list = query.list();
@@ -309,7 +309,7 @@ public class HomeController {
 	@ModelAttribute("lstSlider")
 	public List<SliderDiscount> getSlider(){
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM SliderDiscount ORDER BY Created";
+		String hql = "FROM SliderDiscount ORDER BY Id DESC";
 		Query query = ss.createQuery(hql);
 		query.setFirstResult(0);
 		query.setMaxResults(3);
@@ -321,7 +321,7 @@ public class HomeController {
 	@ModelAttribute("lstBanner")
 	public List<BannerDiscount> getBanner(){
 		Session ss = factory.getCurrentSession();
-		String hql = "FROM BannerDiscount ORDER BY Created";
+		String hql = "FROM BannerDiscount ORDER BY Id DESC";
 		Query query = ss.createQuery(hql);
 		query.setFirstResult(0);
 		query.setMaxResults(1);

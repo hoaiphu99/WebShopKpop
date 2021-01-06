@@ -3,7 +3,7 @@
     <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 	<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt" %>
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -258,7 +258,7 @@
             var quantity = $("#quantity-cart-" + id).val();
             var sl = $("#slsp").text();
     	    if(quantity > sl){
-    	    	alert("Không đủ số lượng sản phẩm!");
+    	    	alert("Sản phẩm đã hết hàng!");
     	    }
     	    else{
     	    	window.location = "add-cart/" + id + "/" + quantity + ".htm";
